@@ -1,6 +1,6 @@
 # RigPulse — PC Bottleneck, PSU & Frame-Gen Calculator
 
-> **Estimated FPS benchmarks** for CPU + GPU combinations, with bottleneck analysis, Frame Generation simulation, and PSU wattage recommendations.
+> **Estimated FPS** for CPU + GPU combinations, with bottleneck analysis, Frame Generation simulation, and PSU wattage recommendations.
 
 ## What It Is
 

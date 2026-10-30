@@ -8,9 +8,11 @@ import BottleneckGauge from "@/components/BottleneckGauge";
 import FpsChart from "@/components/FpsChart";
 import AffiliateCards from "@/components/AffiliateCards";
 import AdSlot from "@/components/AdSlot";
+import ComboVerdictSection from "@/components/ComboVerdictSection";
 import { type Region } from "@/config/monetization";
 import { type BottleneckResult } from "@/lib/calculator";
 import { type CPU, type GPU } from "@/lib/hardware";
+import { type VerdictData } from "@/lib/verdict";
 import { ArrowLeft, Cpu } from "lucide-react";
 
 interface ComboPageClientProps {
@@ -19,6 +21,7 @@ interface ComboPageClientProps {
   initialResult: BottleneckResult;
   cpu: CPU;
   gpu: GPU;
+  verdict: VerdictData;
 }
 
 export default function ComboPageClient({
@@ -27,6 +30,7 @@ export default function ComboPageClient({
   initialResult,
   cpu,
   gpu,
+  verdict,
 }: ComboPageClientProps) {
   const [region, setRegion] = useState<Region>("global");
 
@@ -80,7 +84,7 @@ export default function ComboPageClient({
             {gpu.name}
           </h1>
           <p className="text-slate-400">
-            Bottleneck Analysis, FPS Benchmarks &amp; PSU Calculator (2026)
+            Bottleneck Analysis, Estimated FPS &amp; PSU Calculator (2026)
           </p>
         </div>
 
@@ -98,8 +102,11 @@ export default function ComboPageClient({
           </div>
         </div>
 
+        {/* Unique server-rendered content section */}
+        <ComboVerdictSection verdict={verdict} />
+
         {/* Interactive calculator below */}
-        <div className="pt-4 border-t border-slate-800">
+        <div className="pt-8 border-t border-slate-800">
           <div className="flex items-center gap-2 mb-6">
             <Cpu className="w-5 h-5 text-emerald-400" />
             <h2 className="text-xl font-bold">Try a Different Configuration</h2>
@@ -110,10 +117,17 @@ export default function ComboPageClient({
         <AdSlot slot="banner-bottom" />
       </main>
 
-      <footer className="border-t border-slate-800 mt-16 py-8 text-center text-xs text-slate-600">
+      <footer className="border-t border-slate-800 mt-16 py-8 text-center text-xs text-slate-600 space-y-2">
         <p>
-          RigPulse &copy; {new Date().getFullYear()} · {cpu.name} + {gpu.name} benchmark
-          estimates based on relative performance indices.
+          RigPulse &copy; {new Date().getFullYear()} · {cpu.name} + {gpu.name} estimated FPS
+          based on relative performance indices.
+        </p>
+        <p className="text-slate-500">
+          Estimates based on relative performance indices, not lab measurements. Read our{" "}
+          <Link href="/methodology" className="text-emerald-400 hover:underline">
+            methodology
+          </Link>
+          .
         </p>
       </footer>
     </>

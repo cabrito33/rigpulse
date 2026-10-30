@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -9,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | RigPulse",
   },
   description:
-    "Free PC bottleneck calculator. Find CPU/GPU bottlenecks instantly, see FPS benchmarks, Frame Generation gains, PSU wattage recommendations, and best upgrade paths for your gaming rig.",
+    "Free PC bottleneck calculator. Find CPU/GPU bottlenecks instantly, see estimated FPS, Frame Generation gains, PSU wattage recommendations, and best upgrade paths for your gaming rig.",
   keywords: [
     "PC bottleneck calculator",
     "CPU GPU bottleneck",
@@ -29,7 +42,7 @@ export const metadata: Metadata = {
     siteName: "RigPulse",
     title: "RigPulse — PC Bottleneck, PSU & Frame-Gen Calculator",
     description:
-      "Free PC bottleneck calculator with FPS benchmarks, Frame Gen simulation, PSU wattage, and upgrade recommendations.",
+      "Free PC bottleneck calculator with estimated FPS, Frame Gen simulation, PSU wattage, and upgrade recommendations.",
   },
   twitter: {
     card: "summary_large_image",
@@ -56,12 +69,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="bg-slate-950 text-slate-100 min-h-screen antialiased">
+    <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen antialiased`}>
         {children}
       </body>
     </html>

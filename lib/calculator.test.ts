@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { calculate, getComboSlug, parseComboSlug } from "../lib/calculator";
 import { getCpuById, getGpuById } from "../lib/hardware";
+import { buildVerdict } from "../lib/verdict";
 import {
   isPlausiblePair,
   getAllPlausibleCombos,
@@ -363,6 +364,86 @@ describe("Hardware data validation", () => {
       if (id.startsWith("rtx-") || id.startsWith("rx-6") || id.startsWith("rx-7") || id.startsWith("arc-")) {
         expect(gpu.fsr3FrameGen, `${id} must have fsr3FrameGen=true`).toBe(true);
       }
+    }
+  });
+});
+
+// ─── Verdict generation (lib/verdict.ts) ──────────────────────────────────────
+
+describe("buildVerdict (lib/verdict.ts)", () => {
+  const cpu1 = getCpuById("i5-8400")!;
+  const gpu1 = getGpuById("rtx-3050")!;
+  const cpu2 = getCpuById("ryzen-7-9800x3d")!;
+  const gpu2 = getGpuById("rtx-5070")!;
+
+  it("different pairs produce genuinely different verdict text and analysis", () => {
+    const v1 = buildVerdict(cpu1, gpu1);
+    const v2 = buildVerdict(cpu2, gpu2);
+
+    expect(v1.summaryVerdict).not.toBe(v2.summaryVerdict);
+    expect(v1.resolutionAnalysis).not.toBe(v2.resolutionAnalysis);
+    expect(v1.platformAnalysis).not.toBe(v2.platformAnalysis);
+    expect(v1.architecturalDeepDive).not.toBe(v2.architecturalDeepDive);
+    expect(v1.gamePerformanceDeepDive).not.toBe(v2.gamePerformanceDeepDive);
+  });
+
+  it("makes no false claims of 'real benchmarks' or lab testing", () => {
+    const v1 = buildVerdict(cpu1, gpu1);
+    const allText = [
+      v1.summaryVerdict,
+      v1.resolutionAnalysis,
+      v1.platformAnalysis,
+      v1.architecturalDeepDive,
+      v1.gamePerformanceDeepDive,
+      v1.hardwareThermalGuide,
+      v1.bottleneckPhysicsAnalysis,
+      ...v1.faq.map((f) => f.question + " " + f.answer),
+    ].join(" ");
+
+    expect(allText).not.toMatch(/real benchmarks/i);
+    expect(allText).not.toMatch(/lab measurement/i);
+    expect(allText).toMatch(/estimate/i);
+  });
+
+  it("verdict numbers match calculate() exactly across all resolutions", () => {
+    const v = buildVerdict(cpu1, gpu1);
+    const c1080 = calculate(cpu1.id, gpu1.id, "1080p")!;
+    const c1440 = calculate(cpu1.id, gpu1.id, "1440p")!;
+    const c4k = calculate(cpu1.id, gpu1.id, "4k")!;
+
+    expect(v.res1080.bottleneckPercent).toBe(c1080.bottleneckPercent);
+    expect(v.res1440.bottleneckPercent).toBe(c1440.bottleneckPercent);
+    expect(v.res4k.bottleneckPercent).toBe(c4k.bottleneckPercent);
+
+    // Multi-res table rows
+    expect(v.multiResTable[0].bottleneckPercent).toBe(c1080.bottleneckPercent);
+    expect(v.multiResTable[1].bottleneckPercent).toBe(c1440.bottleneckPercent);
+    expect(v.multiResTable[2].bottleneckPercent).toBe(c4k.bottleneckPercent);
+
+    // Cyberpunk estimated FPS
+    const cp1080 = c1080.games.find((g) => g.game === "Cyberpunk 2077")!.nativeMed;
+    expect(v.multiResTable[0].cyberpunkFps).toBe(cp1080);
+
+    // PSU wattage
+    expect(v.psuAdvice.recommendedWatts).toBe(c1080.psu.recommendedWatts);
+    expect(v.psuAdvice.peakWatts).toBe(c1080.psu.peakDrawWatts);
+  });
+
+  it("FAQ contains 5 questions with matching numerical data", () => {
+    const v = buildVerdict(cpu2, gpu2);
+    expect(v.faq.length).toBe(5);
+    for (const item of v.faq) {
+      expect(item.question.length).toBeGreaterThan(10);
+      expect(item.answer.length).toBeGreaterThan(20);
+    }
+  });
+
+  it("similar combos provides 4-6 plausible links with valid slugs", () => {
+    const v = buildVerdict(cpu1, gpu1);
+    expect(v.similarCombos.length).toBeGreaterThanOrEqual(4);
+    expect(v.similarCombos.length).toBeLessThanOrEqual(6);
+    for (const item of v.similarCombos) {
+      expect(item.slug).toMatch(/^[a-z0-9-]+-with-[a-z0-9-]+$/);
     }
   });
 });

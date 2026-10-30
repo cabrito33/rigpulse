@@ -1,6 +1,7 @@
 import { getCpuById, getGpuById } from "@/lib/hardware";
 import { calculate, parseComboSlug } from "@/lib/calculator";
 import { getAllPlausibleCombos, isPlausiblePair } from "@/lib/combos";
+import { buildVerdict } from "@/lib/verdict";
 import { SITE_URL } from "@/lib/site";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -26,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!cpu || !gpu) return { title: "Not Found" };
 
   const isPlausible = isPlausiblePair(cpu, gpu);
-  const title = `${cpu.name} + ${gpu.name} Bottleneck, FPS & PSU Calculator (2026)`;
-  const description = `Does the ${cpu.name} bottleneck the ${gpu.name} at 1080p or 1440p? View estimated FPS, Frame Generation gains, recommended PSU wattage, and best upgrades.`;
+  const title = `${cpu.name} + ${gpu.name} Bottleneck, Estimated FPS & PSU Calculator (2026)`;
+  const description = `Does the ${cpu.name} bottleneck the ${gpu.name} at 1080p, 1440p or 4K? View estimated FPS, Frame Generation gains, recommended PSU wattage, and best upgrades.`;
 
   return {
     title,
@@ -64,7 +65,9 @@ export default async function ComboPage({ params }: Props) {
   const result = calculate(parsed.cpuId, parsed.gpuId, "1080p", "gaming");
   if (!result) notFound();
 
-  // JSON-LD structured data with updated bottleneck semantics
+  const verdict = buildVerdict(cpu, gpu);
+
+  // JSON-LD structured data: WebApplication + BreadcrumbList + FAQPage
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -75,42 +78,35 @@ export default async function ComboPage({ params }: Props) {
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Any",
         description:
-          "Free PC bottleneck calculator with FPS benchmarks, Frame Generation simulation, and PSU wattage recommendations.",
+          "Free PC bottleneck calculator with estimated FPS, Frame Generation simulation, and PSU wattage recommendations.",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: `${cpu.name} + ${gpu.name}`,
+            item: `${SITE_URL}/combo/${slug}`,
+          },
+        ],
       },
       {
         "@type": "FAQPage",
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: `Does the ${cpu.name} bottleneck the ${gpu.name}?`,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: `At 1080p, the ${cpu.name} and ${gpu.name} combination shows a ${result.bottleneckPercent.toFixed(1)}% ${result.bottleneckType}. ${
-                result.bottleneckType === "GPU Bottleneck"
-                  ? "The GPU is the primary limiting factor, which is the expected and ideal scenario for modern gaming rigs to maximize GPU utilization."
-                  : result.bottleneckSeverity === "optimal"
-                  ? "This is a well-balanced pairing with minimal bottlenecking."
-                  : "The CPU is the limiting factor, which may hold back GPU performance in CPU-intensive titles."
-              }`,
-            },
+        mainEntity: verdict.faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
           },
-          {
-            "@type": "Question",
-            name: `What PSU do I need for the ${cpu.name} and ${gpu.name}?`,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: `The ${cpu.name} (${cpu.tdpWatts}W) and ${gpu.name} (${gpu.tdpWatts}W) draw approximately ${result.psu.peakDrawWatts}W peak. We recommend a minimum ${result.psu.recommendedWatts}W 80+ Gold PSU for safe, stable operation.`,
-            },
-          },
-          {
-            "@type": "Question",
-            name: `What FPS can I expect with the ${cpu.name} and ${gpu.name} in gaming?`,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: `With the ${cpu.name} and ${gpu.name} at 1080p medium settings, expect approximately ${result.games[0]?.nativeMed ?? 0} FPS in demanding AAA titles. With Frame Generation enabled (${result.games[0]?.upscalingTech}), effective FPS can reach ${result.games[0]?.frameGenMin ?? 0}–${result.games[0]?.frameGenMax ?? 0} FPS.`,
-            },
-          },
-        ],
+        })),
       },
     ],
   };
@@ -127,6 +123,7 @@ export default async function ComboPage({ params }: Props) {
         initialResult={result}
         cpu={cpu}
         gpu={gpu}
+        verdict={verdict}
       />
     </>
   );

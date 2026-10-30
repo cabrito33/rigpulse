@@ -66,8 +66,8 @@ export default function HomePage() {
             </span>
           </h1>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto text-balance">
-            Instantly discover if your CPU bottlenecks your GPU, see real-world FPS
-            benchmarks, Frame Generation gains, PSU wattage requirements, and the
+            Instantly discover if your CPU bottlenecks your GPU, see estimated FPS,
+            Frame Generation gains, PSU wattage requirements, and the
             best upgrade path for your gaming rig.
           </p>
 
@@ -147,12 +147,16 @@ export default function HomePage() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-800 mt-16 py-8 text-center text-xs text-slate-600">
+      <footer className="border-t border-slate-800 mt-16 py-8 text-center text-xs text-slate-600 space-y-2">
         <p>
-          RigPulse &copy; {new Date().getFullYear()} · FPS estimates are based on relative
-          performance indices and may vary from real-world benchmarks.
+          RigPulse &copy; {new Date().getFullYear()} · Estimates based on relative
+          performance indices, not lab measurements. Read our{" "}
+          <Link href="/methodology" className="text-emerald-400 hover:underline">
+            methodology
+          </Link>
+          .
         </p>
-        <p className="mt-1">
+        <p>
           Amazon affiliate links · Prices shown are estimates.{" "}
           {region === "iberia" ? "Amazon.es (PT/ES)" : "Amazon.com (Global)"}
         </p>

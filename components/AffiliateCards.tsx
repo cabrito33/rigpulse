@@ -46,7 +46,7 @@ function AmazonButton({
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer sponsored"
+      rel="sponsored noopener noreferrer"
       className={cn(
         "inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold transition-all",
         variantClass

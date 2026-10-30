@@ -1,5 +1,5 @@
-// AdSlot.tsx — Google AdSense placeholder slots
-// To activate: Replace the inner div with your AdSense <ins> tag
+// AdSlot.tsx — Google AdSense responsive slot
+// Automatically renders nothing when NEXT_PUBLIC_ADSENSE_CLIENT is not configured.
 
 interface AdSlotProps {
   slot: "banner-top" | "banner-mid" | "banner-bottom" | "sidebar";
@@ -7,31 +7,33 @@ interface AdSlotProps {
 }
 
 export default function AdSlot({ slot, className = "" }: AdSlotProps) {
+  const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+
+  if (!adClient || adClient.trim() === "") {
+    return null;
+  }
+
   const dimensions: Record<AdSlotProps["slot"], string> = {
-    "banner-top": "h-24 w-full",
-    "banner-mid": "h-28 w-full",
-    "banner-bottom": "h-24 w-full",
-    sidebar: "h-64 w-full",
+    "banner-top": "min-h-[90px] w-full",
+    "banner-mid": "min-h-[100px] w-full",
+    "banner-bottom": "min-h-[90px] w-full",
+    sidebar: "min-h-[250px] w-full",
   };
 
   return (
     <div
-      className={`${dimensions[slot]} ${className} flex items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-900/30`}
+      className={`${dimensions[slot]} ${className} flex items-center justify-center overflow-hidden`}
       data-ad-slot={slot}
       aria-label="Advertisement"
     >
-      {/* 
-        REPLACE THIS COMMENT WITH YOUR ADSENSE CODE:
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-          data-ad-slot="XXXXXXXXXX"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      */}
-      <span className="text-xs text-slate-700 select-none font-mono">ad · {slot}</span>
+      <ins
+        className="adsbygoogle"
+        style={{ display: "block" }}
+        data-ad-client={adClient}
+        data-ad-slot={slot}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 }

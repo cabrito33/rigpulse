@@ -1,9 +1,40 @@
 // =========================================
-// MONETIZATION CONFIG — Add your tags here!
+// MONETIZATION CONFIG — Environment-driven tags
 // =========================================
 
-export const AMAZON_TAG_GLOBAL = "rigpulse-20"; // amazon.com
-export const AMAZON_TAG_IBERIA = "rigpulse-21"; // amazon.es (Portugal / Spain)
+const DEFAULT_GLOBAL_TAG = "rigpulse-20"; // amazon.com fallback placeholder
+const DEFAULT_IBERIA_TAG = "rigpulse-21"; // amazon.es fallback placeholder
+
+const envGlobal = process.env.NEXT_PUBLIC_AMAZON_TAG_GLOBAL?.trim();
+const envIberia = process.env.NEXT_PUBLIC_AMAZON_TAG_IBERIA?.trim();
+
+let hasWarnedInProduction = false;
+
+function checkProductionTags() {
+  if (
+    typeof process !== "undefined" &&
+    process.env.NODE_ENV === "production" &&
+    !hasWarnedInProduction
+  ) {
+    const isGlobalMissingOrPlaceholder = !envGlobal || envGlobal === DEFAULT_GLOBAL_TAG;
+    const isIberiaMissingOrPlaceholder = !envIberia || envIberia === DEFAULT_IBERIA_TAG;
+
+    if (isGlobalMissingOrPlaceholder || isIberiaMissingOrPlaceholder) {
+      console.warn(
+        `[RigPulse Build Warning] Production Amazon affiliate tags are missing or using placeholders. ` +
+        `Global: "${envGlobal || 'empty'}", Iberia: "${envIberia || 'empty'}". ` +
+        `Configure NEXT_PUBLIC_AMAZON_TAG_GLOBAL and NEXT_PUBLIC_AMAZON_TAG_IBERIA in your production environment.`
+      );
+      hasWarnedInProduction = true;
+    }
+  }
+}
+
+// Check once on module load
+checkProductionTags();
+
+export const AMAZON_TAG_GLOBAL = envGlobal || DEFAULT_GLOBAL_TAG;
+export const AMAZON_TAG_IBERIA = envIberia || DEFAULT_IBERIA_TAG;
 
 export type Region = "global" | "iberia";
 
