@@ -83,7 +83,7 @@ export interface BottleneckResult {
   avgGpuCapFps: number;
   bottleneckPercent: number;
   bottleneckType: "CPU Bottleneck" | "GPU Bottleneck" | "Balanced";
-  bottleneckSeverity: "optimal" | "moderate" | "severe";
+  bottleneckSeverity: "optimal" | "moderate" | "severe" | "gpu-limited";
   games: GameBenchmark[];
   psu: PSUResult;
   cpuName: string;
@@ -106,12 +106,12 @@ function clamp(v: number, lo: number, hi: number): number {
 }
 
 // ─── Frame-gen helpers ────────────────────────────────────────────────────────
+// Label priority: DLSS 3/4 frame gen -> FSR 3 frame gen -> Lossless Scaling (paid).
+// For DLSS-2-only cards (RTX 20/30) with FSR 3 available, returns "FSR 3 Frame Generation".
 function getUpscalingTech(gpu: GPU): string {
   if (gpu.dlss === "4") return "DLSS 4 Frame Generation";
   if (gpu.dlss === "3") return "DLSS 3 Frame Generation";
   if (gpu.fsr3FrameGen) return "FSR 3 Frame Generation";
-  if (gpu.dlss === "2") return "DLSS 2 Upscaling (no frame generation)";
-  if (gpu.xess) return "Lossless Scaling (third-party, paid)";
   return "Lossless Scaling (third-party, paid)";
 }
 
@@ -120,7 +120,6 @@ function frameGenMultiplier(gpu: GPU): number {
   if (gpu.dlss === "4") return 1.85;
   if (gpu.dlss === "3") return 1.80;
   if (gpu.fsr3FrameGen) return 1.65;
-  if (gpu.dlss === "2") return 1.25; // upscaling only, no frame gen
   return 1.70; // Lossless Scaling estimate
 }
 
@@ -219,16 +218,19 @@ export function calculate(
   const bottleneckPercent = Math.round(clamp(rawPercent, 0, 90) * 10) / 10;
 
   let bottleneckType: BottleneckResult["bottleneckType"];
+  let bottleneckSeverity: BottleneckResult["bottleneckSeverity"];
+
   if (bottleneckPercent < 10) {
     bottleneckType = "Balanced";
+    bottleneckSeverity = "optimal";
   } else if (avgCpuCapFps < avgGpuCapFps) {
     bottleneckType = "CPU Bottleneck";
+    bottleneckSeverity = bottleneckPercent < 20 ? "moderate" : "severe";
   } else {
     bottleneckType = "GPU Bottleneck";
+    // GPU-limited is the normal, intended operating condition for gaming rigs
+    bottleneckSeverity = "gpu-limited";
   }
-
-  const bottleneckSeverity: BottleneckResult["bottleneckSeverity"] =
-    bottleneckPercent < 10 ? "optimal" : bottleneckPercent < 20 ? "moderate" : "severe";
 
   const psu = calcPSU(cpu, gpu, hoursPerDay, kwhPrice);
 

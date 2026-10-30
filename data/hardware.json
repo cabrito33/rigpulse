@@ -10,7 +10,9 @@
       "socket": "LGA1151",
       "recommendedUpgradeId": "i5-12400f",
       "amazonQuery": "Intel Core i5-8400 processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i7-8700k",
@@ -22,7 +24,9 @@
       "socket": "LGA1151",
       "recommendedUpgradeId": "i5-13600k",
       "amazonQuery": "Intel Core i7-8700K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i5-10400f",
@@ -34,7 +38,9 @@
       "socket": "LGA1200",
       "recommendedUpgradeId": "i5-12400f",
       "amazonQuery": "Intel Core i5-10400F processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i7-1165g7",
@@ -46,7 +52,9 @@
       "socket": null,
       "recommendedUpgradeId": "i5-12400f",
       "amazonQuery": "Intel Core i7-1165G7 processor laptop",
-      "mobile": true
+      "mobile": true,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i5-12400f",
@@ -58,7 +66,9 @@
       "socket": "LGA1700",
       "recommendedUpgradeId": "i5-13600k",
       "amazonQuery": "Intel Core i5-12400F processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i5-13400f",
@@ -70,7 +80,9 @@
       "socket": "LGA1700",
       "recommendedUpgradeId": "i5-13600k",
       "amazonQuery": "Intel Core i5-13400F processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i5-13600k",
@@ -82,7 +94,9 @@
       "socket": "LGA1700",
       "recommendedUpgradeId": "i7-14700k",
       "amazonQuery": "Intel Core i5-13600K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i7-13700k",
@@ -94,7 +108,9 @@
       "socket": "LGA1700",
       "recommendedUpgradeId": "i7-14700k",
       "amazonQuery": "Intel Core i7-13700K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i7-14700k",
@@ -106,7 +122,9 @@
       "socket": "LGA1700",
       "recommendedUpgradeId": "core-ultra-7-265k",
       "amazonQuery": "Intel Core i7-14700K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "core-ultra-7-265k",
@@ -118,7 +136,9 @@
       "socket": "LGA1851",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
       "amazonQuery": "Intel Core Ultra 7 265K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-3600",
@@ -130,7 +150,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600x",
       "amazonQuery": "AMD Ryzen 5 3600 processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-5500",
@@ -142,7 +164,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600x",
       "amazonQuery": "AMD Ryzen 5 5500 processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-5600",
@@ -154,7 +178,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600x",
       "amazonQuery": "AMD Ryzen 5 5600 processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-5600x",
@@ -166,19 +192,23 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-5800x3d",
       "amazonQuery": "AMD Ryzen 5 5600X processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-7-5700x3d",
       "name": "AMD Ryzen 7 5700X3D",
       "brand": "AMD",
       "tierScore": 96,
-      "tdpWatts": 65,
+      "tdpWatts": 105,
       "cores": 8,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-5800x3d",
       "amazonQuery": "AMD Ryzen 7 5700X3D processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-7-5800x3d",
@@ -190,7 +220,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
       "amazonQuery": "AMD Ryzen 7 5800X3D processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-7600",
@@ -202,7 +234,9 @@
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
       "amazonQuery": "AMD Ryzen 5 7600 processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-7600x",
@@ -214,7 +248,9 @@
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
       "amazonQuery": "AMD Ryzen 5 7600X processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-7-7700x",
@@ -226,7 +262,9 @@
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
       "amazonQuery": "AMD Ryzen 7 7700X processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-7-7800x3d",
@@ -238,7 +276,9 @@
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
       "amazonQuery": "AMD Ryzen 7 7800X3D processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-7-9800x3d",
@@ -250,7 +290,9 @@
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
       "amazonQuery": "AMD Ryzen 7 9800X3D processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-3400g",
@@ -262,7 +304,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600",
       "amazonQuery": "AMD Ryzen 5 3400G APU processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-9-5900x",
@@ -274,7 +318,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
       "amazonQuery": "AMD Ryzen 9 5900X processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i9-12900k",
@@ -286,7 +332,9 @@
       "socket": "LGA1700",
       "recommendedUpgradeId": "i7-14700k",
       "amazonQuery": "Intel Core i9-12900K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i5-9600k",
@@ -298,7 +346,9 @@
       "socket": "LGA1151",
       "recommendedUpgradeId": "i5-12400f",
       "amazonQuery": "Intel Core i5-9600K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-5-2600",
@@ -310,7 +360,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600",
       "amazonQuery": "AMD Ryzen 5 2600 processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-9-7900x",
@@ -322,7 +374,9 @@
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
       "amazonQuery": "AMD Ryzen 9 7900X processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i3-12100f",
@@ -334,7 +388,9 @@
       "socket": "LGA1700",
       "recommendedUpgradeId": "i5-12400f",
       "amazonQuery": "Intel Core i3-12100F processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "i5-11600k",
@@ -346,7 +402,9 @@
       "socket": "LGA1200",
       "recommendedUpgradeId": "i5-13400f",
       "amazonQuery": "Intel Core i5-11600K processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "ryzen-7-5700x",
@@ -358,7 +416,9 @@
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-5800x3d",
       "amazonQuery": "AMD Ryzen 7 5700X processor",
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     }
   ],
   "gpus": [
@@ -374,7 +434,9 @@
       "dlss": "none",
       "fsr3FrameGen": false,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "gtx-1660-super",
@@ -388,7 +450,9 @@
       "dlss": "none",
       "fsr3FrameGen": false,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-2060",
@@ -400,9 +464,11 @@
       "recommendedUpgradeId": "rtx-3060",
       "amazonQuery": "NVIDIA RTX 2060 graphics card",
       "dlss": "2",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-3050",
@@ -414,9 +480,11 @@
       "recommendedUpgradeId": "rtx-4060",
       "amazonQuery": "NVIDIA RTX 3050 graphics card",
       "dlss": "2",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-3060",
@@ -428,9 +496,11 @@
       "recommendedUpgradeId": "rtx-4060",
       "amazonQuery": "NVIDIA RTX 3060 12GB graphics card",
       "dlss": "2",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-3060-ti",
@@ -442,9 +512,11 @@
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 3060 Ti graphics card",
       "dlss": "2",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-3070",
@@ -456,9 +528,11 @@
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 3070 graphics card",
       "dlss": "2",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-3080",
@@ -470,9 +544,11 @@
       "recommendedUpgradeId": "rtx-4080-super",
       "amazonQuery": "NVIDIA RTX 3080 graphics card",
       "dlss": "2",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-4060",
@@ -484,9 +560,11 @@
       "recommendedUpgradeId": "rtx-4060-ti",
       "amazonQuery": "NVIDIA RTX 4060 graphics card",
       "dlss": "3",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-4060-ti",
@@ -498,9 +576,11 @@
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 4060 Ti graphics card",
       "dlss": "3",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-4070-super",
@@ -512,9 +592,11 @@
       "recommendedUpgradeId": "rtx-4070-ti-super",
       "amazonQuery": "NVIDIA RTX 4070 Super graphics card",
       "dlss": "3",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-4070-ti-super",
@@ -526,9 +608,11 @@
       "recommendedUpgradeId": "rtx-4080-super",
       "amazonQuery": "NVIDIA RTX 4070 Ti Super graphics card",
       "dlss": "3",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-4080-super",
@@ -540,9 +624,11 @@
       "recommendedUpgradeId": "rtx-5080",
       "amazonQuery": "NVIDIA RTX 4080 Super graphics card",
       "dlss": "3",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-5070",
@@ -554,23 +640,27 @@
       "recommendedUpgradeId": "rtx-5080",
       "amazonQuery": "NVIDIA RTX 5070 graphics card",
       "dlss": "4",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-5080",
       "name": "NVIDIA GeForce RTX 5080",
       "brand": "NVIDIA",
       "tierScore": 185,
-      "tdpWatts": 360,
+      "tdpWatts": 400,
       "vramGb": 16,
       "recommendedUpgradeId": "rtx-5080",
       "amazonQuery": "NVIDIA RTX 5080 graphics card",
       "dlss": "4",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "mx450",
@@ -584,7 +674,9 @@
       "dlss": "none",
       "fsr3FrameGen": false,
       "xess": false,
-      "mobile": true
+      "mobile": true,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-580",
@@ -598,7 +690,9 @@
       "dlss": "none",
       "fsr3FrameGen": false,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-6600",
@@ -610,9 +704,11 @@
       "recommendedUpgradeId": "rx-7700-xt",
       "amazonQuery": "AMD RX 6600 graphics card",
       "dlss": "none",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-6650-xt",
@@ -624,9 +720,11 @@
       "recommendedUpgradeId": "rx-7700-xt",
       "amazonQuery": "AMD RX 6650 XT graphics card",
       "dlss": "none",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-6700-xt",
@@ -638,9 +736,11 @@
       "recommendedUpgradeId": "rx-7800-xt",
       "amazonQuery": "AMD RX 6700 XT graphics card",
       "dlss": "none",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-6750-xt",
@@ -652,9 +752,11 @@
       "recommendedUpgradeId": "rx-7800-xt",
       "amazonQuery": "AMD RX 6750 XT graphics card",
       "dlss": "none",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-7600",
@@ -668,7 +770,9 @@
       "dlss": "none",
       "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-7700-xt",
@@ -682,7 +786,9 @@
       "dlss": "none",
       "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-7800-xt",
@@ -696,7 +802,9 @@
       "dlss": "none",
       "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-7900-gre",
@@ -710,7 +818,9 @@
       "dlss": "none",
       "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-7900-xtx",
@@ -724,7 +834,9 @@
       "dlss": "none",
       "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "arc-a750",
@@ -736,9 +848,11 @@
       "recommendedUpgradeId": "arc-b580",
       "amazonQuery": "Intel Arc A750 graphics card",
       "dlss": "none",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": true,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "arc-b580",
@@ -750,9 +864,11 @@
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "Intel Arc B580 graphics card",
       "dlss": "none",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": true,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rtx-2080-super",
@@ -764,9 +880,11 @@
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 2080 Super graphics card",
       "dlss": "2",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     },
     {
       "id": "rx-6800-xt",
@@ -778,9 +896,11 @@
       "recommendedUpgradeId": "rx-7900-gre",
       "amazonQuery": "AMD RX 6800 XT graphics card",
       "dlss": "none",
-      "fsr3FrameGen": false,
+      "fsr3FrameGen": true,
       "xess": false,
-      "mobile": false
+      "mobile": false,
+      "lastReviewed": "2026-10-30",
+      "source": "TechPowerUp relative performance + manufacturer spec"
     }
   ]
 }

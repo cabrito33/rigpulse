@@ -19,7 +19,16 @@ export default function BottleneckGauge({ result }: BottleneckGaugeProps) {
       bgClass: "bg-emerald-500/10 border-emerald-500/30",
       icon: CheckCircle,
       label: "Balanced Sweet Spot",
-      badge: "✓ Balanced",
+      badge: "✓ Balanced (<10%)",
+    },
+    "gpu-limited": {
+      color: "text-emerald-400",
+      barColor: "bg-emerald-500",
+      glowClass: "glow-emerald",
+      bgClass: "bg-emerald-500/10 border-emerald-500/30",
+      icon: CheckCircle,
+      label: "GPU-limited (normal for gaming)",
+      badge: "✓ GPU-Limited (Normal for Gaming)",
     },
     moderate: {
       color: "text-amber-400",
@@ -27,8 +36,8 @@ export default function BottleneckGauge({ result }: BottleneckGaugeProps) {
       glowClass: "glow-amber",
       bgClass: "bg-amber-500/10 border-amber-500/30",
       icon: AlertTriangle,
-      label: "Moderate Bottleneck",
-      badge: "⚠ Moderate",
+      label: "Moderate CPU Bottleneck",
+      badge: "⚠ Moderate CPU Bottleneck (10–20%)",
     },
     severe: {
       color: "text-rose-400",
@@ -36,8 +45,8 @@ export default function BottleneckGauge({ result }: BottleneckGaugeProps) {
       glowClass: "glow-rose",
       bgClass: "bg-rose-500/10 border-rose-500/30",
       icon: AlertTriangle,
-      label: "Severe Bottleneck",
-      badge: "✗ Severe",
+      label: "Severe CPU Bottleneck",
+      badge: "✗ Severe CPU Bottleneck (>20%)",
     },
   };
 

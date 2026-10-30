@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, TrendingUp, Thermometer, Zap, Cpu } from "lucide-react";
+import { ExternalLink, TrendingUp, Thermometer, Zap, Cpu, AlertTriangle } from "lucide-react";
 import {
   buildAmazonLink,
   THERMAL_PASTE_QUERY,
@@ -9,7 +9,13 @@ import {
   getPsuQuery,
   type Region,
 } from "@/config/monetization";
-import { getCpuById, getGpuById, getCpuUpgrade, getGpuUpgrade } from "@/lib/hardware";
+import {
+  getCpuById,
+  getGpuById,
+  getCpuUpgrade,
+  getGpuUpgrade,
+  platformChangeRequired,
+} from "@/lib/hardware";
 import type { BottleneckResult } from "@/lib/calculator";
 import { cn } from "@/lib/utils";
 
@@ -64,13 +70,24 @@ export default function AffiliateCards({
   const isCpuBottleneck = result.bottleneckType === "CPU Bottleneck";
   const isGpuBottleneck = result.bottleneckType === "GPU Bottleneck";
 
+  // Check if CPU upgrade requires motherboard platform change
+  const needsPlatformChange =
+    cpu && cpuUpgrade ? platformChangeRequired(cpu, cpuUpgrade) : false;
+
+  // Check if GPU upgrade requires a higher PSU wattage
+  const upgradedPsuWatts =
+    cpu && gpuUpgrade
+      ? Math.ceil(((cpu.tdpWatts + gpuUpgrade.tdpWatts + 75) * 1.35) / 50) * 50
+      : 0;
+  const needsPsuUpgrade = upgradedPsuWatts > result.psu.recommendedWatts;
+
   // FPS gain estimate from upgrade
   const upgradeGainPct =
     result.bottleneckSeverity === "severe"
       ? 30
       : result.bottleneckSeverity === "moderate"
       ? 18
-      : 8;
+      : 10;
 
   return (
     <div className="space-y-4">
@@ -83,7 +100,7 @@ export default function AffiliateCards({
             </div>
             <div>
               <h3 className="font-bold text-slate-100">
-                Eliminate Your Bottleneck
+                {isCpuBottleneck ? "Eliminate Your Bottleneck" : "Recommended GPU Upgrade"}
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
                 Projected +{upgradeGainPct}% FPS gain
@@ -99,6 +116,12 @@ export default function AffiliateCards({
                 <span className="text-emerald-400 font-medium">{cpuUpgrade.name}</span>{" "}
                 for a smooth, balanced rig.
               </p>
+              {needsPlatformChange && (
+                <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                  <span>Requires new motherboard (and DDR5 if applicable)</span>
+                </div>
+              )}
               <AmazonButton
                 href={buildAmazonLink(cpuUpgrade.amazonQuery, region)}
                 label={`Check ${cpuUpgrade.name} Price`}
@@ -110,11 +133,18 @@ export default function AffiliateCards({
           {isGpuBottleneck && gpuUpgrade && (
             <div className="space-y-2">
               <p className="text-sm text-slate-300">
-                Your <span className="text-rose-400 font-medium">{gpu?.name}</span>{" "}
-                is your weakest link. Upgrade to the{" "}
+                Your rig is currently <span className="text-emerald-400 font-medium">GPU-limited</span> (normal and ideal for gaming). Upgrading to the{" "}
                 <span className="text-emerald-400 font-medium">{gpuUpgrade.name}</span>{" "}
-                and unlock your CPU&apos;s full potential.
+                will push your graphical fidelity and framerates even higher.
               </p>
+              {needsPsuUpgrade && (
+                <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-center gap-2">
+                  <Zap className="w-4 h-4 flex-shrink-0 text-amber-400" />
+                  <span>
+                    Warning: Recommended PSU increases from {result.psu.recommendedWatts}W to {upgradedPsuWatts}W with this GPU.
+                  </span>
+                </div>
+              )}
               <AmazonButton
                 href={buildAmazonLink(gpuUpgrade.amazonQuery, region)}
                 label={`Check ${gpuUpgrade.name} Price`}

@@ -32,8 +32,9 @@ export default function ComboPageClient({
 
   const severityLabel = {
     optimal: "Balanced",
-    moderate: "Moderate Bottleneck",
-    severe: "Severe Bottleneck",
+    "gpu-limited": "GPU-limited (normal for gaming)",
+    moderate: "Moderate CPU Bottleneck",
+    severe: "Severe CPU Bottleneck",
   }[initialResult.bottleneckSeverity];
 
   return (
@@ -62,7 +63,8 @@ export default function ComboPageClient({
             </span>
             <span
               className={`px-2.5 py-1 rounded-full text-xs font-mono ${
-                initialResult.bottleneckSeverity === "optimal"
+                initialResult.bottleneckSeverity === "optimal" ||
+                initialResult.bottleneckSeverity === "gpu-limited"
                   ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
                   : initialResult.bottleneckSeverity === "moderate"
                   ? "bg-amber-500/10 border border-amber-500/20 text-amber-400"

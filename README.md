@@ -28,27 +28,34 @@ Where `softMin(a,b,k) = (a^-k + b^-k)^(-1/k)` — a smooth minimum that naturall
 
 `RES_FACTOR = { 1080p: 1.0, 1440p: 0.68, 4k: 0.38 }`
 
-### Bottleneck %
-Average the CPU cap and GPU cap across all 5 games for the selected resolution. The side with the lower average cap is the bottleneck.
+### Bottleneck Semantics
+- **GPU-Limited:** Normal and optimal for gaming. Rendered in emerald with "GPU-limited (normal for gaming)" badge; never labeled severe or shown in red.
+- **CPU Bottleneck:**
+  - `< 10%` → Balanced (emerald)
+  - `10–20%` → Moderate CPU Bottleneck (amber)
+  - `> 20%` → Severe CPU Bottleneck (rose, clamped at 90%)
+- UI components include clear text/icon labels to ensure accessibility without relying solely on color.
 
-`percent = (higherCap - lowerCap) / higherCap × 100`
+### Frame-Gen Technology Priority
+Label and multiplier priority:
+1. `DLSS 4 Frame Generation` (NVIDIA RTX 50 series, 1.85×)
+2. `DLSS 3 Frame Generation` (NVIDIA RTX 40 series, 1.80×)
+3. `FSR 3 Frame Generation` (AMD RX 6000/7000 series, NVIDIA RTX 20/30 series, Intel Arc series, 1.65×)
+4. `Lossless Scaling (third-party, paid)` (fallback for GTX 16/10 series and MX, 1.70×)
 
-- < 10% → Balanced
-- 10–20% → Moderate
-- > 20% → Severe (clamped at 90%)
+Official AMD FSR 3 Frame Generation support checked as of **2026-10-30** (Source: AMD GPUOpen / Radeon Software official compatibility documentation).
 
-### PSU Formula
-`recommendedWatts = ⌈(CPU_TDP + GPU_TDP + 75W) × 1.35 / 50⌉ × 50`
+### Plausible Combinations Filter (`lib/combos.ts`)
+To maximize SEO crawl budget efficiency and deliver high-converting landing pages:
+- Only realistic desktop pairings with ratio `0.80 ≤ gpu.tierScore / cpu.tierScore ≤ 1.20` are statically pre-rendered (~238 combo pages) and included in `sitemap.xml`.
+- Absurd combinations (e.g. i5-8400 + RX 7800 XT, 9800X3D + GTX 1650) and mobile chips are excluded from the sitemap.
+- Any valid slug requested by a user still dynamically renders, but sets `robots: { index: false, follow: true }`.
 
-Monthly electricity: assumes 60% average load at given hours/day and configurable price per kWh.
-
-### Data Sources
-- `tierScore` values derived from relative GPU performance indices (TechPowerUp GPU Hierarchy, PassMark, Tom's Hardware bench averages)
-- TDP values from manufacturer specifications
-- VRAM from manufacturer specs
-- Frame-gen support from official NVIDIA/AMD/Intel documentation
-
-See `data/hardware.json` for `lastReviewed` dates per entry.
+### Data Quality & Review
+- All 30 CPUs and 30 GPUs reviewed as of **2026-10-30**.
+- `source`: TechPowerUp relative performance index + manufacturer official specs.
+- Mobile BGA chips (e.g. `i7-1165g7`) feature `socket: null, mobile: true`.
+- Upgrade cards utilize `platformChangeRequired()` to alert users when a motherboard socket change is necessary, and calculate PSU headroom warnings when GPU upgrades demand more power.
 
 ## Running Locally
 

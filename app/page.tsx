@@ -7,6 +7,7 @@ import Calculator from "@/components/Calculator";
 import AdSlot from "@/components/AdSlot";
 import { cpus, gpus } from "@/lib/hardware";
 import { getComboSlug } from "@/lib/calculator";
+import { isPlausiblePair } from "@/lib/combos";
 import { type Region } from "@/config/monetization";
 import { Cpu, Zap, Shield, BarChart3, ExternalLink } from "lucide-react";
 
@@ -19,7 +20,7 @@ const POPULAR_COMBOS = [
   { cpuId: "ryzen-7-7800x3d", gpuId: "rtx-4080-super" },
   { cpuId: "i5-10400f", gpuId: "rtx-2060" },
   { cpuId: "ryzen-7-5800x3d", gpuId: "rx-6700-xt" },
-  { cpuId: "i7-8700k", gpuId: "rtx-3070" },
+  { cpuId: "i7-14700k", gpuId: "rtx-4070-super" },
   { cpuId: "ryzen-5-5600", gpuId: "rx-7600" },
   { cpuId: "i5-13400f", gpuId: "rtx-4060-ti" },
   { cpuId: "ryzen-7-9800x3d", gpuId: "rtx-5080" },
@@ -28,7 +29,7 @@ const POPULAR_COMBOS = [
 function ComboLink({ cpuId, gpuId }: { cpuId: string; gpuId: string }) {
   const cpu = cpus.find((c) => c.id === cpuId);
   const gpu = gpus.find((g) => g.id === gpuId);
-  if (!cpu || !gpu) return null;
+  if (!cpu || !gpu || !isPlausiblePair(cpu, gpu)) return null;
 
   return (
     <Link

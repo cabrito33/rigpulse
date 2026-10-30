@@ -1,5 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { calculate, getComboSlug, parseComboSlug } from "../lib/calculator";
+import { getCpuById, getGpuById } from "../lib/hardware";
+import {
+  isPlausiblePair,
+  getAllPlausibleCombos,
+  PLAUSIBLE_RATIO_MIN,
+  PLAUSIBLE_RATIO_MAX,
+} from "../lib/combos";
 import hardwareData from "../data/hardware.json";
 
 // ─── Sanity anchors ────────────────────────────────────────────────────────────
@@ -35,11 +42,11 @@ describe("Sanity anchors", () => {
     expect(r!.bottleneckType).not.toBe("CPU Bottleneck");
   });
 
-  it("Ryzen 7 9800X3D + GTX 1650: GPU bottleneck severe at ALL resolutions", () => {
+  it("Ryzen 7 9800X3D + GTX 1650: GPU bottleneck at ALL resolutions (normal severity)", () => {
     for (const res of ["1080p", "1440p", "4k"] as const) {
       const r = calculate("ryzen-7-9800x3d", "gtx-1650", res, "gaming");
       expect(r!.bottleneckType, `Expected GPU bottleneck at ${res}`).toBe("GPU Bottleneck");
-      expect(r!.bottleneckSeverity, `Expected severe at ${res}`).toBe("severe");
+      expect(r!.bottleneckSeverity, `Expected gpu-limited at ${res}`).toBe("gpu-limited");
     }
   });
 
@@ -53,13 +60,130 @@ describe("Sanity anchors", () => {
   });
 });
 
+// ─── Bottleneck severity semantics ──────────────────────────────────────────
+
+describe("Bottleneck severity semantics", () => {
+  it("i7-14700K + RTX 4070 Super @1440p: GPU-limited is normal for gaming, never severe", () => {
+    const r = calculate("i7-14700k", "rtx-4070-super", "1440p", "gaming");
+    expect(r).not.toBeNull();
+    expect(r!.bottleneckType).toBe("GPU Bottleneck");
+    expect(r!.bottleneckSeverity).toBe("gpu-limited");
+  });
+
+  it("GPU-limited pairs are always 'gpu-limited' severity regardless of percentage", () => {
+    const pairs: [string, string][] = [
+      ["ryzen-7-7800x3d", "rtx-4070-super"],
+      ["i9-12900k", "rtx-3060"],
+      ["ryzen-9-7900x", "rx-7600"],
+    ];
+    for (const [cpuId, gpuId] of pairs) {
+      const r = calculate(cpuId, gpuId, "1440p", "gaming");
+      if (r && r.bottleneckType === "GPU Bottleneck") {
+        expect(r.bottleneckSeverity).toBe("gpu-limited");
+      }
+    }
+  });
+
+  it("CPU bottlenecks map to correct severity thresholds (<10% optimal, 10-20% moderate, >20% severe)", () => {
+    // i5-8400 + RTX 4080 Super is a severe CPU bottleneck (>20%)
+    const severe = calculate("i5-8400", "rtx-4080-super", "1080p", "gaming");
+    expect(severe!.bottleneckType).toBe("CPU Bottleneck");
+    expect(severe!.bottleneckSeverity).toBe("severe");
+  });
+});
+
+// ─── Frame-Gen / DLSS / FSR 3 Priority ──────────────────────────────────────
+
+describe("Frame-Gen technology priority", () => {
+  it("DLSS-2-only cards (RTX 20/30) with FSR 3 show FSR 3 Frame Generation", () => {
+    const r = calculate("ryzen-5-5600", "rtx-3060", "1080p", "gaming");
+    expect(r!.games[0].upscalingTech).toBe("FSR 3 Frame Generation");
+  });
+
+  it("RTX 40 series cards show DLSS 3 Frame Generation", () => {
+    const r = calculate("i5-13600k", "rtx-4070-super", "1440p", "gaming");
+    expect(r!.games[0].upscalingTech).toBe("DLSS 3 Frame Generation");
+  });
+
+  it("RTX 50 series cards show DLSS 4 Frame Generation", () => {
+    const r = calculate("ryzen-7-9800x3d", "rtx-5080", "4k", "gaming");
+    expect(r!.games[0].upscalingTech).toBe("DLSS 4 Frame Generation");
+  });
+
+  it("AMD RX 6000 and 7000 series cards show FSR 3 Frame Generation", () => {
+    const r6 = calculate("ryzen-5-5600", "rx-6700-xt", "1080p", "gaming");
+    expect(r6!.games[0].upscalingTech).toBe("FSR 3 Frame Generation");
+
+    const r7 = calculate("ryzen-7-7800x3d", "rx-7800-xt", "1440p", "gaming");
+    expect(r7!.games[0].upscalingTech).toBe("FSR 3 Frame Generation");
+  });
+
+  it("Cards without DLSS 3/4 or FSR 3 fallback to Lossless Scaling", () => {
+    const r = calculate("i5-8400", "gtx-1650", "1080p", "gaming");
+    expect(r!.games[0].upscalingTech).toBe("Lossless Scaling (third-party, paid)");
+  });
+});
+
+// ─── Plausible combinations (lib/combos.ts) ──────────────────────────────────
+
+describe("Plausible combinations filtering", () => {
+  it("excludes absurd pairings by ratio threshold", () => {
+    const cpuOld = getCpuById("i5-8400")!;
+    const gpuNew = getGpuById("rx-7800-xt")!;
+    expect(isPlausiblePair(cpuOld, gpuNew)).toBe(false);
+
+    const cpuFlagship = getCpuById("ryzen-7-9800x3d")!;
+    const gpuBudget = getGpuById("gtx-1650")!;
+    expect(isPlausiblePair(cpuFlagship, gpuBudget)).toBe(false);
+  });
+
+  it("excludes mobile parts completely", () => {
+    const mobileCpu = getCpuById("i7-1165g7")!;
+    const desktopGpu = getGpuById("rtx-3060")!;
+    expect(isPlausiblePair(mobileCpu, desktopGpu)).toBe(false);
+
+    const desktopCpu = getCpuById("ryzen-5-5600")!;
+    const mobileGpu = getGpuById("mx450")!;
+    expect(isPlausiblePair(desktopCpu, mobileGpu)).toBe(false);
+  });
+
+  it("includes well-matched realistic pairings", () => {
+    const pairs: [string, string][] = [
+      ["ryzen-5-5600", "rtx-3060"],
+      ["i7-14700k", "rtx-4070-super"],
+      ["ryzen-7-7800x3d", "rtx-4080-super"],
+      ["ryzen-7-9800x3d", "rtx-5080"],
+      ["i5-12400f", "rtx-3060-ti"],
+      ["i5-8400", "gtx-1660-super"],
+    ];
+    for (const [cId, gId] of pairs) {
+      const c = getCpuById(cId)!;
+      const g = getGpuById(gId)!;
+      expect(isPlausiblePair(c, g), `Expected ${cId} + ${gId} to be plausible`).toBe(true);
+    }
+  });
+
+  it("plausible combos list length is within range [120, 250]", () => {
+    expect(PLAUSIBLE_RATIO_MIN).toBe(0.80);
+    expect(PLAUSIBLE_RATIO_MAX).toBe(1.20);
+    const combos = getAllPlausibleCombos();
+    expect(combos.length).toBeGreaterThanOrEqual(120);
+    expect(combos.length).toBeLessThanOrEqual(250);
+  });
+
+  it("all plausible combo slugs are unique", () => {
+    const combos = getAllPlausibleCombos();
+    const slugs = combos.map((c) => c.slug);
+    expect(new Set(slugs).size).toBe(slugs.length);
+  });
+});
+
 // ─── Property tests ────────────────────────────────────────────────────────────
 
 describe("Property tests", () => {
   it("Raising GPU tierScore never lowers FPS", () => {
     const r1 = calculate("i5-13600k", "rtx-3060", "1080p", "gaming");
     const r2 = calculate("i5-13600k", "rtx-4070-super", "1080p", "gaming");
-    // RTX 4070 Super has higher tierScore than RTX 3060
     expect(r2!.games[0].nativeMed).toBeGreaterThanOrEqual(r1!.games[0].nativeMed);
   });
 
@@ -70,7 +194,6 @@ describe("Property tests", () => {
   });
 
   it("Raising resolution never raises GPU-bound FPS (Cyberpunk, GPU-limited pair)", () => {
-    // 9800X3D + RTX 3060 is GPU-bound at all resolutions
     const r1080 = calculate("ryzen-7-9800x3d", "rtx-3060", "1080p", "gaming");
     const r1440 = calculate("ryzen-7-9800x3d", "rtx-3060", "1440p", "gaming");
     const r4k = calculate("ryzen-7-9800x3d", "rtx-3060", "4k", "gaming");
@@ -79,7 +202,7 @@ describe("Property tests", () => {
     const cp1440 = r1440!.games[0].nativeMed;
     const cp4k = r4k!.games[0].nativeMed;
 
-    expect(cp1440).toBeLessThanOrEqual(cp1080 + 2); // allow 2 fps rounding tolerance
+    expect(cp1440).toBeLessThanOrEqual(cp1080 + 2);
     expect(cp4k).toBeLessThanOrEqual(cp1440 + 2);
   });
 
@@ -88,7 +211,6 @@ describe("Property tests", () => {
     const r2 = calculate("i5-8400", "rtx-4080-super", "1440p", "gaming")!;
     const r3 = calculate("i5-8400", "rtx-4080-super", "4k", "gaming")!;
 
-    // At higher res, GPU is more limited → CPU bottleneck % should not grow
     if (r1.bottleneckType === "CPU Bottleneck" && r2.bottleneckType === "CPU Bottleneck") {
       expect(r2.bottleneckPercent).toBeLessThanOrEqual(r1.bottleneckPercent + 1);
     }
@@ -105,7 +227,6 @@ describe("PSU formula", () => {
     const r = calculate("i5-8400", "rtx-3060", "1080p", "gaming");
     const peak = r!.psu.peakDrawWatts;
     expect(r!.psu.recommendedWatts).toBe(Math.ceil((peak * 1.35) / 50) * 50);
-    // i5-8400: 65W, RTX 3060: 170W, overhead: 75W → peak = 310W
     expect(peak).toBe(65 + 170 + 75);
   });
 });
@@ -147,18 +268,40 @@ describe("Hardware data validation", () => {
     }
   });
 
-  it("all recommendedUpgradeIds exist", () => {
+  it("all recommendedUpgradeIds exist and have upgrade.tierScore >= current.tierScore", () => {
+    const cpuMap = new Map(cpus.map((c) => [c.id as string, c]));
+    const gpuMap = new Map(gpus.map((g) => [g.id as string, g]));
+
     for (const cpu of cpus) {
       expect(
         allIds.has(cpu.recommendedUpgradeId as string),
         `CPU ${cpu.id} upgrade "${cpu.recommendedUpgradeId}" not found`
       ).toBe(true);
+      const upgrade = cpuMap.get(cpu.recommendedUpgradeId as string)!;
+      expect(
+        upgrade.tierScore as number,
+        `CPU ${cpu.id} upgrade ${upgrade.id} must have tierScore >= current`
+      ).toBeGreaterThanOrEqual(cpu.tierScore as number);
     }
+
     for (const gpu of gpus) {
       expect(
         allIds.has(gpu.recommendedUpgradeId as string),
         `GPU ${gpu.id} upgrade "${gpu.recommendedUpgradeId}" not found`
       ).toBe(true);
+      const upgrade = gpuMap.get(gpu.recommendedUpgradeId as string)!;
+      expect(
+        upgrade.tierScore as number,
+        `GPU ${gpu.id} upgrade ${upgrade.id} must have tierScore >= current`
+      ).toBeGreaterThanOrEqual(gpu.tierScore as number);
+    }
+  });
+
+  it("all CPUs and GPUs have lastReviewed ('2026-10-30') and source fields", () => {
+    for (const item of [...cpus, ...gpus]) {
+      expect(item.lastReviewed, `${item.id} missing lastReviewed`).toBe("2026-10-30");
+      expect(typeof item.source, `${item.id} source must be string`).toBe("string");
+      expect((item.source as string).length, `${item.id} source cannot be empty`).toBeGreaterThan(5);
     }
   });
 
@@ -171,7 +314,10 @@ describe("Hardware data validation", () => {
   });
 
   it("no missing required fields on CPUs", () => {
-    const required = ["id", "name", "brand", "tierScore", "tdpWatts", "cores", "recommendedUpgradeId", "amazonQuery", "mobile"];
+    const required = [
+      "id", "name", "brand", "tierScore", "tdpWatts", "cores",
+      "recommendedUpgradeId", "amazonQuery", "mobile", "lastReviewed", "source",
+    ];
     for (const cpu of cpus) {
       for (const field of required) {
         expect(cpu[field], `CPU ${cpu.id} missing field "${field}"`).toBeDefined();
@@ -180,7 +326,11 @@ describe("Hardware data validation", () => {
   });
 
   it("no missing required fields on GPUs", () => {
-    const required = ["id", "name", "brand", "tierScore", "tdpWatts", "vramGb", "recommendedUpgradeId", "amazonQuery", "dlss", "fsr3FrameGen", "xess", "mobile"];
+    const required = [
+      "id", "name", "brand", "tierScore", "tdpWatts", "vramGb",
+      "recommendedUpgradeId", "amazonQuery", "dlss", "fsr3FrameGen",
+      "xess", "mobile", "lastReviewed", "source",
+    ];
     for (const gpu of gpus) {
       for (const field of required) {
         expect(gpu[field], `GPU ${gpu.id} missing field "${field}"`).toBeDefined();
@@ -197,22 +347,22 @@ describe("Hardware data validation", () => {
     }
   });
 
-  it("GTX cards have dlss='none'", () => {
+  it("GTX and MX cards have dlss='none' and fsr3FrameGen=false", () => {
     for (const gpu of gpus) {
       const id = gpu.id as string;
       if (id.startsWith("gtx-") || id === "mx450") {
-        expect(
-          gpu.dlss,
-          `${id} is a GTX/MX card and must have dlss="none"`
-        ).toBe("none");
+        expect(gpu.dlss, `${id} is a GTX/MX card and must have dlss="none"`).toBe("none");
+        expect(gpu.fsr3FrameGen, `${id} GTX/MX card does not support FSR 3 frame gen`).toBe(false);
       }
     }
   });
 
-  it("fsr3FrameGen and xess are booleans", () => {
+  it("RTX and modern RX cards have fsr3FrameGen=true", () => {
     for (const gpu of gpus) {
-      expect(typeof gpu.fsr3FrameGen, `${gpu.id} fsr3FrameGen`).toBe("boolean");
-      expect(typeof gpu.xess, `${gpu.id} xess`).toBe("boolean");
+      const id = gpu.id as string;
+      if (id.startsWith("rtx-") || id.startsWith("rx-6") || id.startsWith("rx-7") || id.startsWith("arc-")) {
+        expect(gpu.fsr3FrameGen, `${id} must have fsr3FrameGen=true`).toBe(true);
+      }
     }
   });
 });

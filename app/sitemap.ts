@@ -1,42 +1,28 @@
 import { MetadataRoute } from "next";
-import { cpus, TOP_CPU_IDS, TOP_GPU_IDS } from "@/lib/hardware";
-import { getComboSlug } from "@/lib/calculator";
-
-const BASE_URL = "https://rigpulse.app";
+import { getAllPlausibleCombos } from "@/lib/combos";
+import { SITE_URL, DATA_LAST_REVIEWED } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date(DATA_LAST_REVIEWED);
+
   const urls: MetadataRoute.Sitemap = [
     {
-      url: BASE_URL,
-      lastModified: new Date(),
+      url: SITE_URL,
+      lastModified,
       changeFrequency: "weekly",
       priority: 1.0,
     },
   ];
 
-  // Top CPU × Top GPU combos (high priority)
-  for (const cpuId of TOP_CPU_IDS) {
-    for (const gpuId of TOP_GPU_IDS) {
-      urls.push({
-        url: `${BASE_URL}/combo/${getComboSlug(cpuId, gpuId)}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.8,
-      });
-    }
-  }
-
-  // Remaining combos (lower priority)
-  for (const cpu of cpus) {
-    if (TOP_CPU_IDS.includes(cpu.id)) continue;
-    for (const gpuId of TOP_GPU_IDS.slice(0, 5)) {
-      urls.push({
-        url: `${BASE_URL}/combo/${getComboSlug(cpu.id, gpuId)}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.6,
-      });
-    }
+  // Plausible combinations (same list used for generateStaticParams)
+  const plausibleCombos = getAllPlausibleCombos();
+  for (const combo of plausibleCombos) {
+    urls.push({
+      url: `${SITE_URL}/combo/${combo.slug}`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    });
   }
 
   return urls;

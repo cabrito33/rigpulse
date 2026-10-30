@@ -1,5 +1,7 @@
-import { cpus, TOP_CPU_IDS, TOP_GPU_IDS, getCpuById, getGpuById } from "@/lib/hardware";
-import { calculate, parseComboSlug, getComboSlug } from "@/lib/calculator";
+import { getCpuById, getGpuById } from "@/lib/hardware";
+import { calculate, parseComboSlug } from "@/lib/calculator";
+import { getAllPlausibleCombos, isPlausiblePair } from "@/lib/combos";
+import { SITE_URL } from "@/lib/site";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ComboPageClient from "./ComboPageClient";
@@ -8,26 +10,10 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-// Generate all combinations for ISR / static rendering
+// Generate plausible desktop combinations for static rendering
 export async function generateStaticParams() {
-  const params: { slug: string }[] = [];
-
-  // All top CPU × top GPU combos
-  for (const cpuId of TOP_CPU_IDS) {
-    for (const gpuId of TOP_GPU_IDS) {
-      params.push({ slug: getComboSlug(cpuId, gpuId) });
-    }
-  }
-
-  // Remaining CPUs × top GPUs (for full coverage)
-  for (const cpu of cpus) {
-    if (TOP_CPU_IDS.includes(cpu.id)) continue;
-    for (const gpuId of TOP_GPU_IDS.slice(0, 5)) {
-      params.push({ slug: getComboSlug(cpu.id, gpuId) });
-    }
-  }
-
-  return params;
+  const combos = getAllPlausibleCombos();
+  return combos.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -39,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const gpu = getGpuById(parsed.gpuId);
   if (!cpu || !gpu) return { title: "Not Found" };
 
+  const isPlausible = isPlausiblePair(cpu, gpu);
   const title = `${cpu.name} + ${gpu.name} Bottleneck, FPS & PSU Calculator (2026)`;
   const description = `Does the ${cpu.name} bottleneck the ${gpu.name} at 1080p or 1440p? View estimated FPS, Frame Generation gains, recommended PSU wattage, and best upgrades.`;
 
@@ -49,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       type: "website",
+      url: `${SITE_URL}/combo/${slug}`,
     },
     twitter: {
       card: "summary",
@@ -56,8 +44,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
     },
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/combo/${slug}`,
+      canonical: `${SITE_URL}/combo/${slug}`,
     },
+    robots: isPlausible
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
   };
 }
 
@@ -73,14 +64,14 @@ export default async function ComboPage({ params }: Props) {
   const result = calculate(parsed.cpuId, parsed.gpuId, "1080p", "gaming");
   if (!result) notFound();
 
-  // JSON-LD structured data
+  // JSON-LD structured data with updated bottleneck semantics
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebApplication",
         name: "RigPulse PC Bottleneck Calculator",
-        url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+        url: SITE_URL,
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Any",
         description:
@@ -94,7 +85,13 @@ export default async function ComboPage({ params }: Props) {
             name: `Does the ${cpu.name} bottleneck the ${gpu.name}?`,
             acceptedAnswer: {
               "@type": "Answer",
-              text: `At 1080p, the ${cpu.name} and ${gpu.name} combination shows a ${result.bottleneckPercent.toFixed(1)}% ${result.bottleneckType}. ${result.bottleneckSeverity === "optimal" ? "This is a well-balanced pairing." : `The ${result.bottleneckType === "CPU Bottleneck" ? "CPU" : "GPU"} is the limiting factor.`}`,
+              text: `At 1080p, the ${cpu.name} and ${gpu.name} combination shows a ${result.bottleneckPercent.toFixed(1)}% ${result.bottleneckType}. ${
+                result.bottleneckType === "GPU Bottleneck"
+                  ? "The GPU is the primary limiting factor, which is the expected and ideal scenario for modern gaming rigs to maximize GPU utilization."
+                  : result.bottleneckSeverity === "optimal"
+                  ? "This is a well-balanced pairing with minimal bottlenecking."
+                  : "The CPU is the limiting factor, which may hold back GPU performance in CPU-intensive titles."
+              }`,
             },
           },
           {

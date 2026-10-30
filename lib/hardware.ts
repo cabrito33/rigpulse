@@ -11,6 +11,8 @@ export interface CPU {
   recommendedUpgradeId: string;
   amazonQuery: string;
   mobile: boolean;
+  lastReviewed: string;
+  source: string;
 }
 
 export interface GPU {
@@ -29,6 +31,8 @@ export interface GPU {
   /** Intel XeSS support */
   xess: boolean;
   mobile: boolean;
+  lastReviewed: string;
+  source: string;
 }
 
 export const cpus: CPU[] = hardwareData.cpus as CPU[];

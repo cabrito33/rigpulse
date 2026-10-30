@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "RigPulse — PC Bottleneck, PSU & Frame-Gen Calculator",
     template: "%s | RigPulse",
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://rigpulse.app",
+    url: SITE_URL,
     siteName: "RigPulse",
     title: "RigPulse — PC Bottleneck, PSU & Frame-Gen Calculator",
     description:
