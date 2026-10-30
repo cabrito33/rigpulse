@@ -9,7 +9,8 @@
       "cores": 6,
       "socket": "LGA1151",
       "recommendedUpgradeId": "i5-12400f",
-      "amazonQuery": "Intel Core i5-8400 processor"
+      "amazonQuery": "Intel Core i5-8400 processor",
+      "mobile": false
     },
     {
       "id": "i7-8700k",
@@ -20,7 +21,8 @@
       "cores": 6,
       "socket": "LGA1151",
       "recommendedUpgradeId": "i5-13600k",
-      "amazonQuery": "Intel Core i7-8700K processor"
+      "amazonQuery": "Intel Core i7-8700K processor",
+      "mobile": false
     },
     {
       "id": "i5-10400f",
@@ -31,7 +33,8 @@
       "cores": 6,
       "socket": "LGA1200",
       "recommendedUpgradeId": "i5-12400f",
-      "amazonQuery": "Intel Core i5-10400F processor"
+      "amazonQuery": "Intel Core i5-10400F processor",
+      "mobile": false
     },
     {
       "id": "i7-1165g7",
@@ -40,9 +43,10 @@
       "tierScore": 48,
       "tdpWatts": 28,
       "cores": 4,
-      "socket": "BGA1449",
+      "socket": null,
       "recommendedUpgradeId": "i5-12400f",
-      "amazonQuery": "Intel Core i7-1165G7 processor laptop"
+      "amazonQuery": "Intel Core i7-1165G7 processor laptop",
+      "mobile": true
     },
     {
       "id": "i5-12400f",
@@ -53,7 +57,8 @@
       "cores": 6,
       "socket": "LGA1700",
       "recommendedUpgradeId": "i5-13600k",
-      "amazonQuery": "Intel Core i5-12400F processor"
+      "amazonQuery": "Intel Core i5-12400F processor",
+      "mobile": false
     },
     {
       "id": "i5-13400f",
@@ -64,7 +69,8 @@
       "cores": 10,
       "socket": "LGA1700",
       "recommendedUpgradeId": "i5-13600k",
-      "amazonQuery": "Intel Core i5-13400F processor"
+      "amazonQuery": "Intel Core i5-13400F processor",
+      "mobile": false
     },
     {
       "id": "i5-13600k",
@@ -75,7 +81,8 @@
       "cores": 14,
       "socket": "LGA1700",
       "recommendedUpgradeId": "i7-14700k",
-      "amazonQuery": "Intel Core i5-13600K processor"
+      "amazonQuery": "Intel Core i5-13600K processor",
+      "mobile": false
     },
     {
       "id": "i7-13700k",
@@ -86,7 +93,8 @@
       "cores": 16,
       "socket": "LGA1700",
       "recommendedUpgradeId": "i7-14700k",
-      "amazonQuery": "Intel Core i7-13700K processor"
+      "amazonQuery": "Intel Core i7-13700K processor",
+      "mobile": false
     },
     {
       "id": "i7-14700k",
@@ -97,7 +105,8 @@
       "cores": 20,
       "socket": "LGA1700",
       "recommendedUpgradeId": "core-ultra-7-265k",
-      "amazonQuery": "Intel Core i7-14700K processor"
+      "amazonQuery": "Intel Core i7-14700K processor",
+      "mobile": false
     },
     {
       "id": "core-ultra-7-265k",
@@ -108,7 +117,8 @@
       "cores": 20,
       "socket": "LGA1851",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
-      "amazonQuery": "Intel Core Ultra 7 265K processor"
+      "amazonQuery": "Intel Core Ultra 7 265K processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-3600",
@@ -119,7 +129,8 @@
       "cores": 6,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600x",
-      "amazonQuery": "AMD Ryzen 5 3600 processor"
+      "amazonQuery": "AMD Ryzen 5 3600 processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-5500",
@@ -130,7 +141,8 @@
       "cores": 6,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600x",
-      "amazonQuery": "AMD Ryzen 5 5500 processor"
+      "amazonQuery": "AMD Ryzen 5 5500 processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-5600",
@@ -141,7 +153,8 @@
       "cores": 6,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600x",
-      "amazonQuery": "AMD Ryzen 5 5600 processor"
+      "amazonQuery": "AMD Ryzen 5 5600 processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-5600x",
@@ -152,7 +165,8 @@
       "cores": 6,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-5800x3d",
-      "amazonQuery": "AMD Ryzen 5 5600X processor"
+      "amazonQuery": "AMD Ryzen 5 5600X processor",
+      "mobile": false
     },
     {
       "id": "ryzen-7-5700x3d",
@@ -163,7 +177,8 @@
       "cores": 8,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-5800x3d",
-      "amazonQuery": "AMD Ryzen 7 5700X3D processor"
+      "amazonQuery": "AMD Ryzen 7 5700X3D processor",
+      "mobile": false
     },
     {
       "id": "ryzen-7-5800x3d",
@@ -174,7 +189,8 @@
       "cores": 8,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
-      "amazonQuery": "AMD Ryzen 7 5800X3D processor"
+      "amazonQuery": "AMD Ryzen 7 5800X3D processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-7600",
@@ -185,7 +201,8 @@
       "cores": 6,
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
-      "amazonQuery": "AMD Ryzen 5 7600 processor"
+      "amazonQuery": "AMD Ryzen 5 7600 processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-7600x",
@@ -196,7 +213,8 @@
       "cores": 6,
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
-      "amazonQuery": "AMD Ryzen 5 7600X processor"
+      "amazonQuery": "AMD Ryzen 5 7600X processor",
+      "mobile": false
     },
     {
       "id": "ryzen-7-7700x",
@@ -207,7 +225,8 @@
       "cores": 8,
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
-      "amazonQuery": "AMD Ryzen 7 7700X processor"
+      "amazonQuery": "AMD Ryzen 7 7700X processor",
+      "mobile": false
     },
     {
       "id": "ryzen-7-7800x3d",
@@ -218,7 +237,8 @@
       "cores": 8,
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
-      "amazonQuery": "AMD Ryzen 7 7800X3D processor"
+      "amazonQuery": "AMD Ryzen 7 7800X3D processor",
+      "mobile": false
     },
     {
       "id": "ryzen-7-9800x3d",
@@ -229,7 +249,8 @@
       "cores": 8,
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
-      "amazonQuery": "AMD Ryzen 7 9800X3D processor"
+      "amazonQuery": "AMD Ryzen 7 9800X3D processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-3400g",
@@ -240,7 +261,8 @@
       "cores": 4,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600",
-      "amazonQuery": "AMD Ryzen 5 3400G APU processor"
+      "amazonQuery": "AMD Ryzen 5 3400G APU processor",
+      "mobile": false
     },
     {
       "id": "ryzen-9-5900x",
@@ -251,7 +273,8 @@
       "cores": 12,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-7800x3d",
-      "amazonQuery": "AMD Ryzen 9 5900X processor"
+      "amazonQuery": "AMD Ryzen 9 5900X processor",
+      "mobile": false
     },
     {
       "id": "i9-12900k",
@@ -262,7 +285,8 @@
       "cores": 16,
       "socket": "LGA1700",
       "recommendedUpgradeId": "i7-14700k",
-      "amazonQuery": "Intel Core i9-12900K processor"
+      "amazonQuery": "Intel Core i9-12900K processor",
+      "mobile": false
     },
     {
       "id": "i5-9600k",
@@ -273,7 +297,8 @@
       "cores": 6,
       "socket": "LGA1151",
       "recommendedUpgradeId": "i5-12400f",
-      "amazonQuery": "Intel Core i5-9600K processor"
+      "amazonQuery": "Intel Core i5-9600K processor",
+      "mobile": false
     },
     {
       "id": "ryzen-5-2600",
@@ -284,7 +309,8 @@
       "cores": 6,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-5-5600",
-      "amazonQuery": "AMD Ryzen 5 2600 processor"
+      "amazonQuery": "AMD Ryzen 5 2600 processor",
+      "mobile": false
     },
     {
       "id": "ryzen-9-7900x",
@@ -295,7 +321,8 @@
       "cores": 12,
       "socket": "AM5",
       "recommendedUpgradeId": "ryzen-7-9800x3d",
-      "amazonQuery": "AMD Ryzen 9 7900X processor"
+      "amazonQuery": "AMD Ryzen 9 7900X processor",
+      "mobile": false
     },
     {
       "id": "i3-12100f",
@@ -306,7 +333,8 @@
       "cores": 4,
       "socket": "LGA1700",
       "recommendedUpgradeId": "i5-12400f",
-      "amazonQuery": "Intel Core i3-12100F processor"
+      "amazonQuery": "Intel Core i3-12100F processor",
+      "mobile": false
     },
     {
       "id": "i5-11600k",
@@ -317,7 +345,8 @@
       "cores": 6,
       "socket": "LGA1200",
       "recommendedUpgradeId": "i5-13400f",
-      "amazonQuery": "Intel Core i5-11600K processor"
+      "amazonQuery": "Intel Core i5-11600K processor",
+      "mobile": false
     },
     {
       "id": "ryzen-7-5700x",
@@ -328,7 +357,8 @@
       "cores": 8,
       "socket": "AM4",
       "recommendedUpgradeId": "ryzen-7-5800x3d",
-      "amazonQuery": "AMD Ryzen 7 5700X processor"
+      "amazonQuery": "AMD Ryzen 7 5700X processor",
+      "mobile": false
     }
   ],
   "gpus": [
@@ -341,9 +371,10 @@
       "vramGb": 4,
       "recommendedUpgradeId": "rtx-3060",
       "amazonQuery": "NVIDIA GTX 1650 graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "gtx-1660-super",
@@ -354,9 +385,10 @@
       "vramGb": 6,
       "recommendedUpgradeId": "rtx-3060",
       "amazonQuery": "NVIDIA GTX 1660 Super graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-2060",
@@ -367,9 +399,10 @@
       "vramGb": 6,
       "recommendedUpgradeId": "rtx-3060",
       "amazonQuery": "NVIDIA RTX 2060 graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "2",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-3050",
@@ -380,9 +413,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rtx-4060",
       "amazonQuery": "NVIDIA RTX 3050 graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "2",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-3060",
@@ -393,9 +427,10 @@
       "vramGb": 12,
       "recommendedUpgradeId": "rtx-4060",
       "amazonQuery": "NVIDIA RTX 3060 12GB graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "2",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-3060-ti",
@@ -406,9 +441,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 3060 Ti graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "2",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-3070",
@@ -419,9 +455,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 3070 graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "2",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-3080",
@@ -432,9 +469,10 @@
       "vramGb": 10,
       "recommendedUpgradeId": "rtx-4080-super",
       "amazonQuery": "NVIDIA RTX 3080 graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "2",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-4060",
@@ -445,9 +483,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rtx-4060-ti",
       "amazonQuery": "NVIDIA RTX 4060 graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": true,
-      "dlssVersion": "3"
+      "dlss": "3",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-4060-ti",
@@ -458,9 +497,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 4060 Ti graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": true,
-      "dlssVersion": "3"
+      "dlss": "3",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-4070-super",
@@ -471,9 +511,10 @@
       "vramGb": 12,
       "recommendedUpgradeId": "rtx-4070-ti-super",
       "amazonQuery": "NVIDIA RTX 4070 Super graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": true,
-      "dlssVersion": "3"
+      "dlss": "3",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-4070-ti-super",
@@ -484,9 +525,10 @@
       "vramGb": 16,
       "recommendedUpgradeId": "rtx-4080-super",
       "amazonQuery": "NVIDIA RTX 4070 Ti Super graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": true,
-      "dlssVersion": "3"
+      "dlss": "3",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-4080-super",
@@ -497,9 +539,10 @@
       "vramGb": 16,
       "recommendedUpgradeId": "rtx-5080",
       "amazonQuery": "NVIDIA RTX 4080 Super graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": true,
-      "dlssVersion": "3"
+      "dlss": "3",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-5070",
@@ -510,9 +553,10 @@
       "vramGb": 12,
       "recommendedUpgradeId": "rtx-5080",
       "amazonQuery": "NVIDIA RTX 5070 graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": true,
-      "dlssVersion": "4"
+      "dlss": "4",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rtx-5080",
@@ -523,9 +567,10 @@
       "vramGb": 16,
       "recommendedUpgradeId": "rtx-5080",
       "amazonQuery": "NVIDIA RTX 5080 graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": true,
-      "dlssVersion": "4"
+      "dlss": "4",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "mx450",
@@ -536,9 +581,10 @@
       "vramGb": 2,
       "recommendedUpgradeId": "gtx-1650",
       "amazonQuery": "NVIDIA MX450 laptop GPU",
-      "supportsFrameGen": false,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": true
     },
     {
       "id": "rx-580",
@@ -549,9 +595,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rx-6700-xt",
       "amazonQuery": "AMD RX 580 8GB graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-6600",
@@ -562,9 +609,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rx-7700-xt",
       "amazonQuery": "AMD RX 6600 graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-6650-xt",
@@ -575,9 +623,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rx-7700-xt",
       "amazonQuery": "AMD RX 6650 XT graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-6700-xt",
@@ -588,9 +637,10 @@
       "vramGb": 12,
       "recommendedUpgradeId": "rx-7800-xt",
       "amazonQuery": "AMD RX 6700 XT graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-6750-xt",
@@ -601,9 +651,10 @@
       "vramGb": 12,
       "recommendedUpgradeId": "rx-7800-xt",
       "amazonQuery": "AMD RX 6750 XT graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-7600",
@@ -614,9 +665,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rx-7700-xt",
       "amazonQuery": "AMD RX 7600 graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": true,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-7700-xt",
@@ -627,9 +679,10 @@
       "vramGb": 12,
       "recommendedUpgradeId": "rx-7800-xt",
       "amazonQuery": "AMD RX 7700 XT graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": true,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-7800-xt",
@@ -640,9 +693,10 @@
       "vramGb": 16,
       "recommendedUpgradeId": "rx-7900-gre",
       "amazonQuery": "AMD RX 7800 XT graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": true,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-7900-gre",
@@ -653,9 +707,10 @@
       "vramGb": 16,
       "recommendedUpgradeId": "rx-7900-xtx",
       "amazonQuery": "AMD RX 7900 GRE graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": true,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-7900-xtx",
@@ -666,9 +721,10 @@
       "vramGb": 24,
       "recommendedUpgradeId": "rx-7900-xtx",
       "amazonQuery": "AMD RX 7900 XTX graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": true,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "arc-a750",
@@ -679,9 +735,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "arc-b580",
       "amazonQuery": "Intel Arc A750 graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": true,
+      "mobile": false
     },
     {
       "id": "arc-b580",
@@ -692,9 +749,10 @@
       "vramGb": 12,
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "Intel Arc B580 graphics card",
-      "supportsFrameGen": true,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": true,
+      "mobile": false
     },
     {
       "id": "rtx-2080-super",
@@ -705,9 +763,10 @@
       "vramGb": 8,
       "recommendedUpgradeId": "rtx-4070-super",
       "amazonQuery": "NVIDIA RTX 2080 Super graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": true,
-      "dlssVersion": "2"
+      "dlss": "2",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     },
     {
       "id": "rx-6800-xt",
@@ -718,9 +777,10 @@
       "vramGb": 16,
       "recommendedUpgradeId": "rx-7900-gre",
       "amazonQuery": "AMD RX 6800 XT graphics card",
-      "supportsFrameGen": false,
-      "supportsDLSS": false,
-      "dlssVersion": null
+      "dlss": "none",
+      "fsr3FrameGen": false,
+      "xess": false,
+      "mobile": false
     }
   ]
 }

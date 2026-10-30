@@ -7,9 +7,10 @@ export interface CPU {
   tierScore: number;
   tdpWatts: number;
   cores: number;
-  socket: string;
+  socket: string | null;
   recommendedUpgradeId: string;
   amazonQuery: string;
+  mobile: boolean;
 }
 
 export interface GPU {
@@ -21,9 +22,13 @@ export interface GPU {
   vramGb: number;
   recommendedUpgradeId: string;
   amazonQuery: string;
-  supportsFrameGen: boolean;
-  supportsDLSS: boolean;
-  dlssVersion: string | null;
+  /** DLSS version supported: "none" for GTX/MX, "2" for RTX 20/30, "3" for RTX 40, "4" for RTX 50 */
+  dlss: "none" | "2" | "3" | "4";
+  /** AMD FSR 3 Frame Generation (official support required) */
+  fsr3FrameGen: boolean;
+  /** Intel XeSS support */
+  xess: boolean;
+  mobile: boolean;
 }
 
 export const cpus: CPU[] = hardwareData.cpus as CPU[];
@@ -45,6 +50,12 @@ export function getCpuUpgrade(cpu: CPU): CPU | undefined {
 export function getGpuUpgrade(gpu: GPU): GPU | undefined {
   if (gpu.recommendedUpgradeId === gpu.id) return undefined;
   return getGpuById(gpu.recommendedUpgradeId);
+}
+
+/** Returns true if upgrading to upgradeCpu requires a new motherboard (different socket). */
+export function platformChangeRequired(cpu: CPU, upgradeCpu: CPU): boolean {
+  if (cpu.socket === null || upgradeCpu.socket === null) return true;
+  return cpu.socket !== upgradeCpu.socket;
 }
 
 export const TOP_CPU_IDS = [

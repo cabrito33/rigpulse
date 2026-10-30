@@ -2,15 +2,14 @@
 
 import { useState, useCallback } from "react";
 import { cpus, gpus } from "@/lib/hardware";
-import { calculate, getComboSlug, type Resolution, type Purpose, type BottleneckResult } from "@/lib/calculator";
+import { calculate, getComboSlug, type Resolution, type BottleneckResult } from "@/lib/calculator";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Share2, Copy, Check } from "lucide-react";
+import { ChevronDown, Share2, Check } from "lucide-react";
 import BottleneckGauge from "@/components/BottleneckGauge";
 import FpsChart from "@/components/FpsChart";
 import AffiliateCards from "@/components/AffiliateCards";
 import AdSlot from "@/components/AdSlot";
 import type { Region } from "@/config/monetization";
-import { getGpuById } from "@/lib/hardware";
 
 interface CalculatorProps {
   initialCpuId?: string;
@@ -19,11 +18,13 @@ interface CalculatorProps {
 }
 
 function Select({
+  id,
   label,
   value,
   onChange,
   options,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (v: string) => void;
@@ -31,11 +32,15 @@ function Select({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider">
+      <label
+        htmlFor={id}
+        className="block text-xs font-medium text-slate-400 uppercase tracking-wider"
+      >
         {label}
       </label>
       <div className="relative">
         <select
+          id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className="w-full appearance-none bg-slate-900 border border-slate-700 text-slate-100 rounded-xl px-4 py-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
@@ -56,13 +61,12 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
   const [cpuId, setCpuId] = useState(initialCpuId ?? cpus[0].id);
   const [gpuId, setGpuId] = useState(initialGpuId ?? gpus[4].id);
   const [resolution, setResolution] = useState<Resolution>("1080p");
-  const [purpose, setPurpose] = useState<Purpose>("gaming");
   const [hoursPerDay, setHoursPerDay] = useState(6);
   const [copied, setCopied] = useState(false);
 
-  const result: BottleneckResult | null = calculate(cpuId, gpuId, resolution, purpose, hoursPerDay);
-  const gpu = getGpuById(gpuId);
+  const result: BottleneckResult | null = calculate(cpuId, gpuId, resolution, "gaming", hoursPerDay);
 
+  // Share URL: /combo/[slug] encodes both CPU and GPU and pre-renders at 1080p
   const shareUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/combo/${getComboSlug(cpuId, gpuId)}`
@@ -74,15 +78,18 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // fallback
+      // clipboard API unavailable — fallback is a no-op
     }
   }, [shareUrl]);
 
-  const cpuOptions = cpus.map((c) => ({ value: c.id, label: `${c.name} (${c.socket})` }));
-  const gpuOptions = gpus.map((g) => ({
-    value: g.id,
-    label: `${g.name} ${g.vramGb}GB VRAM`,
-  }));
+  // Exclude mobile CPUs/GPUs from desktop calculator options
+  const cpuOptions = cpus
+    .filter((c) => !c.mobile)
+    .map((c) => ({ value: c.id, label: `${c.name} (${c.socket ?? "Mobile"})` }));
+
+  const gpuOptions = gpus
+    .filter((g) => !g.mobile)
+    .map((g) => ({ value: g.id, label: `${g.name} — ${g.vramGb} GB` }));
 
   return (
     <div className="space-y-6">
@@ -90,19 +97,10 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
       <div className="glass-card p-6">
         <h2 className="text-lg font-bold text-slate-100 mb-5">Configure Your Rig</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+          <Select id="select-cpu" label="CPU" value={cpuId} onChange={setCpuId} options={cpuOptions} />
+          <Select id="select-gpu" label="GPU" value={gpuId} onChange={setGpuId} options={gpuOptions} />
           <Select
-            label="CPU"
-            value={cpuId}
-            onChange={setCpuId}
-            options={cpuOptions}
-          />
-          <Select
-            label="GPU"
-            value={gpuId}
-            onChange={setGpuId}
-            options={gpuOptions}
-          />
-          <Select
+            id="select-resolution"
             label="Resolution"
             value={resolution}
             onChange={(v) => setResolution(v as Resolution)}
@@ -112,20 +110,17 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
               { value: "4k", label: "4K (UHD)" },
             ]}
           />
-          <Select
-            label="Use Case"
-            value={purpose}
-            onChange={(v) => setPurpose(v as Purpose)}
-            options={[
-              { value: "gaming", label: "Gaming" },
-              { value: "productivity", label: "Productivity / Streaming" },
-            ]}
-          />
+
+          {/* Hours slider */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider">
-              Hours Played / Day: {hoursPerDay}h
+            <label
+              htmlFor="hours-slider"
+              className="block text-xs font-medium text-slate-400 uppercase tracking-wider"
+            >
+              Hours / Day: {hoursPerDay}h
             </label>
             <input
+              id="hours-slider"
               type="range"
               min={1}
               max={12}
@@ -137,11 +132,12 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
 
           {/* Share button */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider">
+            <span className="block text-xs font-medium text-slate-400 uppercase tracking-wider">
               Share Rig Link
-            </label>
+            </span>
             <button
               onClick={handleCopy}
+              aria-label="Copy share link for this rig"
               className={cn(
                 "w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all",
                 copied
@@ -150,15 +146,9 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
               )}
             >
               {copied ? (
-                <>
-                  <Check className="w-4 h-4" /> Copied!
-                </>
+                <><Check className="w-4 h-4" /> Copied!</>
               ) : (
-                <>
-                  <Share2 className="w-4 h-4" />
-                  <Copy className="w-3.5 h-3.5" />
-                  Copy Link
-                </>
+                <><Share2 className="w-4 h-4" /> Copy Link</>
               )}
             </button>
           </div>
@@ -169,14 +159,15 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
         <>
           <AdSlot slot="banner-top" />
 
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div
+            className="grid grid-cols-1 xl:grid-cols-3 gap-6"
+            aria-live="polite"
+            aria-label="Bottleneck analysis results"
+          >
             {/* Left: Gauge + FPS */}
             <div className="xl:col-span-2 space-y-6">
               <BottleneckGauge result={result} />
-              <FpsChart
-                games={result.games}
-                supportsFrameGen={gpu?.supportsFrameGen ?? false}
-              />
+              <FpsChart games={result.games} />
             </div>
 
             {/* Right: Affiliate Cards */}

@@ -88,7 +88,7 @@ export default function ComboPageClient({
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <div className="xl:col-span-2 space-y-6">
             <BottleneckGauge result={initialResult} />
-            <FpsChart games={initialResult.games} supportsFrameGen={gpu.supportsFrameGen} />
+            <FpsChart games={initialResult.games} />
           </div>
           <div className="xl:col-span-1 space-y-4">
             <AffiliateCards result={initialResult} region={region} />

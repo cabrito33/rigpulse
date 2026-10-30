@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!cpu || !gpu) return { title: "Not Found" };
 
   const title = `${cpu.name} + ${gpu.name} Bottleneck, FPS & PSU Calculator (2026)`;
-  const description = `Does the ${cpu.name} bottleneck the ${gpu.name} at 1080p or 1440p? View real FPS benchmarks, Frame Generation gains, recommended PSU wattage, and best upgrades.`;
+  const description = `Does the ${cpu.name} bottleneck the ${gpu.name} at 1080p or 1440p? View estimated FPS, Frame Generation gains, recommended PSU wattage, and best upgrades.`;
 
   return {
     title,
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
     },
     alternates: {
-      canonical: `https://rigpulse.app/combo/${slug}`,
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/combo/${slug}`,
     },
   };
 }
@@ -80,7 +80,7 @@ export default async function ComboPage({ params }: Props) {
       {
         "@type": "WebApplication",
         name: "RigPulse PC Bottleneck Calculator",
-        url: "https://rigpulse.app",
+        url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Any",
         description:
@@ -110,7 +110,7 @@ export default async function ComboPage({ params }: Props) {
             name: `What FPS can I expect with the ${cpu.name} and ${gpu.name} in gaming?`,
             acceptedAnswer: {
               "@type": "Answer",
-              text: `With the ${cpu.name} and ${gpu.name} at 1080p medium settings, expect approximately ${result.games[0]?.nativeMed ?? 0} FPS in demanding AAA titles. With Frame Generation enabled (${result.games[0]?.upscalingTech}), effective FPS can reach ${result.games[0]?.frameGenMed ?? 0} FPS.`,
+              text: `With the ${cpu.name} and ${gpu.name} at 1080p medium settings, expect approximately ${result.games[0]?.nativeMed ?? 0} FPS in demanding AAA titles. With Frame Generation enabled (${result.games[0]?.upscalingTech}), effective FPS can reach ${result.games[0]?.frameGenMin ?? 0}–${result.games[0]?.frameGenMax ?? 0} FPS.`,
             },
           },
         ],
