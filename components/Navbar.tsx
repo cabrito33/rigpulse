@@ -6,11 +6,23 @@ import { Cpu, Menu, X, Globe } from "lucide-react";
 import { type Region } from "@/config/monetization";
 
 interface NavbarProps {
-  region: Region;
-  onRegionChange: (r: Region) => void;
+  region?: Region;
+  onRegionChange?: (r: Region) => void;
 }
 
-export default function Navbar({ region, onRegionChange }: NavbarProps) {
+export default function Navbar({ region = "global", onRegionChange }: NavbarProps) {
+  const [internalRegion, setInternalRegion] = useState<Region>(region);
+  const activeRegion = onRegionChange ? region : internalRegion;
+
+  const handleRegionToggle = () => {
+    const next = activeRegion === "global" ? "iberia" : "global";
+    if (onRegionChange) {
+      onRegionChange(next);
+    } else {
+      setInternalRegion(next);
+    }
+  };
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -38,13 +50,13 @@ export default function Navbar({ region, onRegionChange }: NavbarProps) {
 
             {/* Region toggle */}
             <button
-              onClick={() => onRegionChange(region === "global" ? "iberia" : "global")}
+              onClick={handleRegionToggle}
               className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm font-medium transition-all"
             >
               <Globe className="w-3.5 h-3.5 text-indigo-400" />
-              <span className={region === "global" ? "text-slate-100" : "text-slate-400"}>EN</span>
+              <span className={activeRegion === "global" ? "text-slate-100" : "text-slate-400"}>EN</span>
               <span className="text-slate-600">/</span>
-              <span className={region === "iberia" ? "text-slate-100" : "text-slate-400"}>PT-ES</span>
+              <span className={activeRegion === "iberia" ? "text-slate-100" : "text-slate-400"}>PT-ES</span>
             </button>
           </div>
 
@@ -67,11 +79,11 @@ export default function Navbar({ region, onRegionChange }: NavbarProps) {
               Popular Combos
             </Link>
             <button
-              onClick={() => onRegionChange(region === "global" ? "iberia" : "global")}
+              onClick={handleRegionToggle}
               className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-sm"
             >
               <Globe className="w-3.5 h-3.5 text-indigo-400" />
-              {region === "global" ? "Switch to PT-ES (Amazon.es)" : "Switch to EN (Amazon.com)"}
+              {activeRegion === "global" ? "Switch to PT-ES (Amazon.es)" : "Switch to EN (Amazon.com)"}
             </button>
           </div>
         )}

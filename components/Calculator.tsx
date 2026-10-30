@@ -61,10 +61,18 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
   const [cpuId, setCpuId] = useState(initialCpuId ?? cpus[0].id);
   const [gpuId, setGpuId] = useState(initialGpuId ?? gpus[4].id);
   const [resolution, setResolution] = useState<Resolution>("1080p");
-  const [hoursPerDay, setHoursPerDay] = useState(6);
+  const [hoursPerDay, setHoursPerDay] = useState(3);
+  const [kwhPrice, setKwhPrice] = useState(0.20);
   const [copied, setCopied] = useState(false);
 
-  const result: BottleneckResult | null = calculate(cpuId, gpuId, resolution, "gaming", hoursPerDay);
+  const result: BottleneckResult | null = calculate(
+    cpuId,
+    gpuId,
+    resolution,
+    "gaming",
+    hoursPerDay,
+    kwhPrice
+  );
 
   // Share URL: /combo/[slug] encodes both CPU and GPU and pre-renders at 1080p
   const shareUrl =
@@ -117,7 +125,7 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
               htmlFor="hours-slider"
               className="block text-xs font-medium text-slate-400 uppercase tracking-wider"
             >
-              Hours / Day: {hoursPerDay}h
+              Gaming Hours / Day: {hoursPerDay}h
             </label>
             <input
               id="hours-slider"
@@ -128,6 +136,31 @@ export default function Calculator({ initialCpuId, initialGpuId, region }: Calcu
               onChange={(e) => setHoursPerDay(Number(e.target.value))}
               className="w-full h-2 bg-slate-800 rounded-full appearance-none cursor-pointer accent-emerald-500 mt-3"
             />
+          </div>
+
+          {/* Electricity cost input */}
+          <div className="space-y-1.5">
+            <label
+              htmlFor="kwh-input"
+              className="block text-xs font-medium text-slate-400 uppercase tracking-wider"
+            >
+              Electricity: {kwhPrice.toFixed(2)} €/kWh
+            </label>
+            <div className="relative mt-1">
+              <input
+                id="kwh-input"
+                type="number"
+                step="0.01"
+                min="0.05"
+                max="0.80"
+                value={kwhPrice}
+                onChange={(e) => setKwhPrice(Math.max(0.01, Number(e.target.value)))}
+                className="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-500">
+                EUR/kWh
+              </span>
+            </div>
           </div>
 
           {/* Share button */}

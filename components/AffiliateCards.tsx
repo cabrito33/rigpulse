@@ -236,9 +236,9 @@ export default function AffiliateCards({
             </p>
           </div>
           <div className="bg-slate-900 rounded-lg p-3">
-            <p className="text-xs text-slate-500 mb-1">~Monthly Cost</p>
+            <p className="text-xs text-slate-500 mb-1">~Monthly Cost (60% load)</p>
             <p className="text-lg font-bold font-mono text-amber-400">
-              ${result.psu.monthlyCostUsd}
+              €{result.psu.monthlyCostEur.toFixed(2)}
             </p>
           </div>
         </div>
@@ -247,6 +247,11 @@ export default function AffiliateCards({
           label={`Find ${result.psu.recommendedWatts}W 80+ Gold PSU`}
         />
       </div>
+
+      {/* Affiliate disclosure notice */}
+      <p className="text-[11px] text-slate-500 italic text-center">
+        As an Amazon Associate I earn from qualifying purchases.
+      </p>
     </div>
   );
 }

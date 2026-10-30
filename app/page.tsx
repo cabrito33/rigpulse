@@ -146,21 +146,6 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-
-      <footer className="border-t border-slate-800 mt-16 py-8 text-center text-xs text-slate-600 space-y-2">
-        <p>
-          RigPulse &copy; {new Date().getFullYear()} · Estimates based on relative
-          performance indices, not lab measurements. Read our{" "}
-          <Link href="/methodology" className="text-emerald-400 hover:underline">
-            methodology
-          </Link>
-          .
-        </p>
-        <p>
-          Amazon affiliate links · Prices shown are estimates.{" "}
-          {region === "iberia" ? "Amazon.es (PT/ES)" : "Amazon.com (Global)"}
-        </p>
-      </footer>
     </>
   );
 }

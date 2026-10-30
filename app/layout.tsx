@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { SITE_URL } from "@/lib/site";
+import CookieConsent from "@/components/CookieConsent";
+import AdSenseScript from "@/components/AdSenseScript";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -70,8 +73,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen antialiased`}>
-        {children}
+      <body className={`${inter.className} bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col justify-between`}>
+        <AdSenseScript />
+        <div className="flex-1">
+          {children}
+        </div>
+        <Footer />
+        <CookieConsent />
       </body>
     </html>
   );

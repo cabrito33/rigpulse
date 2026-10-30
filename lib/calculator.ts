@@ -68,6 +68,8 @@ export interface GameBenchmark {
 export interface PSUResult {
   peakDrawWatts: number;
   recommendedWatts: number;
+  monthlyCostEur: number;
+  /** Kept for backwards compatibility */
   monthlyCostUsd: number;
 }
 
@@ -117,7 +119,7 @@ function getUpscalingTech(gpu: GPU): string {
 
 /** Frame-gen multiplier applied only to the GPU-bound portion of FPS */
 function frameGenMultiplier(gpu: GPU): number {
-  if (gpu.dlss === "4") return 1.85;
+  if (gpu.dlss === "4") return 2.50; // DLSS 4 multi-frame generation (up to 3 generated frames on RTX 50)
   if (gpu.dlss === "3") return 1.80;
   if (gpu.fsr3FrameGen) return 1.65;
   return 1.70; // Lossless Scaling estimate
@@ -179,8 +181,8 @@ function calcPSU(
   // Monthly kWh: assume 60% average load during gaming sessions
   const avgDraw = peakDrawWatts * 0.6;
   const kwhPerMonth = (avgDraw / 1000) * hoursPerDay * 30;
-  const monthlyCostUsd = Math.round(kwhPerMonth * kwhPrice * 100) / 100;
-  return { peakDrawWatts, recommendedWatts, monthlyCostUsd };
+  const monthlyCostEur = Math.round(kwhPerMonth * kwhPrice * 100) / 100;
+  return { peakDrawWatts, recommendedWatts, monthlyCostEur, monthlyCostUsd: monthlyCostEur };
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────
@@ -191,8 +193,8 @@ export function calculate(
   /** Kept for API compatibility — currently unused in the gaming model */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _purpose: "gaming" | "productivity" = "gaming",
-  hoursPerDay = 6,
-  kwhPrice = 0.15
+  hoursPerDay = 3,
+  kwhPrice = 0.20
 ): BottleneckResult | null {
   const cpu = getCpuById(cpuId);
   const gpu = getGpuById(gpuId);

@@ -1,5 +1,10 @@
+"use client";
+
 // AdSlot.tsx — Google AdSense responsive slot
-// Automatically renders nothing when NEXT_PUBLIC_ADSENSE_CLIENT is not configured.
+// Automatically renders nothing when NEXT_PUBLIC_ADSENSE_CLIENT is not configured or consent not granted.
+
+import { useEffect, useState } from "react";
+import { getStoredConsent, type ConsentPreferences } from "./CookieConsent";
 
 interface AdSlotProps {
   slot: "banner-top" | "banner-mid" | "banner-bottom" | "sidebar";
@@ -8,8 +13,28 @@ interface AdSlotProps {
 
 export default function AdSlot({ slot, className = "" }: AdSlotProps) {
   const adClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+  const [canShow, setCanShow] = useState(false);
 
-  if (!adClient || adClient.trim() === "") {
+  useEffect(() => {
+    if (!adClient || adClient.trim() === "") return;
+
+    const check = () => {
+      const consent = getStoredConsent();
+      setCanShow(Boolean(consent?.ads));
+    };
+
+    check();
+
+    const handler = (e: Event) => {
+      const customEvent = e as CustomEvent<ConsentPreferences>;
+      setCanShow(Boolean(customEvent.detail?.ads));
+    };
+
+    window.addEventListener("rigpulse-consent-updated", handler);
+    return () => window.removeEventListener("rigpulse-consent-updated", handler);
+  }, [adClient]);
+
+  if (!adClient || adClient.trim() === "" || !canShow) {
     return null;
   }
 

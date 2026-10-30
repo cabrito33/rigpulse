@@ -44,7 +44,7 @@ export default async function Image() {
             textTransform: "uppercase",
           }}
         >
-          ⚡ RigPulse Hardware Intelligence
+          RIGPULSE HARDWARE INTELLIGENCE
         </div>
 
         <div
@@ -92,7 +92,7 @@ export default async function Image() {
               fontWeight: 600,
             }}
           >
-            🎯 Accurate Bottleneck %
+            Accurate Bottleneck %
           </div>
           <div
             style={{
@@ -105,7 +105,7 @@ export default async function Image() {
               fontWeight: 600,
             }}
           >
-            🚀 DLSS / FSR 3 Frame-Gen
+            DLSS / FSR 3 Frame-Gen
           </div>
           <div
             style={{
@@ -118,7 +118,7 @@ export default async function Image() {
               fontWeight: 600,
             }}
           >
-            🔌 PSU Sizing &amp; Upgrades
+            PSU Sizing &amp; Upgrades
           </div>
         </div>
       </div>

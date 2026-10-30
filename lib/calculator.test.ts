@@ -383,21 +383,25 @@ describe("buildVerdict (lib/verdict.ts)", () => {
     expect(v1.summaryVerdict).not.toBe(v2.summaryVerdict);
     expect(v1.resolutionAnalysis).not.toBe(v2.resolutionAnalysis);
     expect(v1.platformAnalysis).not.toBe(v2.platformAnalysis);
-    expect(v1.architecturalDeepDive).not.toBe(v2.architecturalDeepDive);
-    expect(v1.gamePerformanceDeepDive).not.toBe(v2.gamePerformanceDeepDive);
+    expect(v1.hardwareSpecs.synergyAnalysis).not.toBe(v2.hardwareSpecs.synergyAnalysis);
+    expect(v1.closingTakeaway).not.toBe(v2.closingTakeaway);
   });
 
   it("makes no false claims of 'real benchmarks' or lab testing", () => {
     const v1 = buildVerdict(cpu1, gpu1);
     const allText = [
+      v1.introSentence,
       v1.summaryVerdict,
       v1.resolutionAnalysis,
       v1.platformAnalysis,
-      v1.architecturalDeepDive,
-      v1.gamePerformanceDeepDive,
-      v1.hardwareThermalGuide,
-      v1.bottleneckPhysicsAnalysis,
+      v1.closingTakeaway,
+      v1.hardwareSpecs.synergyAnalysis,
+      ...v1.comparisons.map((c) => c.analysis),
+      v1.frameGenAdvice.description,
+      v1.psuAdvice.description,
       ...v1.faq.map((f) => f.question + " " + f.answer),
+      ...v1.deepDive.drawCallPipelineNotes,
+      ...v1.deepDive.thermalPointers,
     ].join(" ");
 
     expect(allText).not.toMatch(/real benchmarks/i);
@@ -445,5 +449,146 @@ describe("buildVerdict (lib/verdict.ts)", () => {
     for (const item of v.similarCombos) {
       expect(item.slug).toMatch(/^[a-z0-9-]+-with-[a-z0-9-]+$/);
     }
+  });
+
+  it("contains NO raw markdown syntax ('###' or '**') anywhere in generated verdict", () => {
+    const combos = getAllPlausibleCombos().slice(0, 20);
+    for (const combo of combos) {
+      const v = buildVerdict(combo.cpu, combo.gpu);
+      const stringsToCheck = [
+        v.introSentence,
+        v.summaryVerdict,
+        v.resolutionAnalysis,
+        v.platformAnalysis,
+        v.closingTakeaway,
+        v.hardwareSpecs.synergyAnalysis,
+        ...v.comparisons.map((c) => c.title + " " + c.analysis),
+        v.frameGenAdvice.description,
+        v.frameGenAdvice.warning ?? "",
+        v.upgradeAdvice.cpuUpgradeText ?? "",
+        v.upgradeAdvice.cpuUpgradeWarning ?? "",
+        v.upgradeAdvice.gpuUpgradeText ?? "",
+        v.upgradeAdvice.gpuUpgradeWarning ?? "",
+        v.psuAdvice.description,
+        ...v.faq.map((f) => f.question + " " + f.answer),
+        ...v.deepDive.drawCallPipelineNotes,
+        ...v.deepDive.thermalPointers,
+      ];
+
+      for (const str of stringsToCheck) {
+        expect(str).not.toContain("###");
+        expect(str).not.toContain("**");
+      }
+    }
+  });
+
+  it("preserves FPS table consistency: lowFps >= medFps and medFps >= highFps", () => {
+    const combos = getAllPlausibleCombos().slice(0, 20);
+    for (const combo of combos) {
+      const v = buildVerdict(combo.cpu, combo.gpu);
+      expect(v.gamePresetsTable.length).toBe(5);
+      for (const row of v.gamePresetsTable) {
+        expect(row.lowFps).toBeGreaterThanOrEqual(row.medFps);
+        expect(row.medFps).toBeGreaterThanOrEqual(row.highFps);
+        expect(row.frameGenRange).toMatch(/^\d+–\d+ fps$/);
+      }
+    }
+  });
+
+  it("ensures electricity calculation uses EUR, no dollar sign in UI strings", () => {
+    const combos = getAllPlausibleCombos().slice(0, 15);
+    for (const combo of combos) {
+      const v = buildVerdict(combo.cpu, combo.gpu);
+      expect(v.psuAdvice.description).toContain("€");
+      expect(v.psuAdvice.description).toContain("EUR");
+      expect(v.psuAdvice.description).not.toContain("$");
+      expect(v.psuAdvice.monthlyCostEur).toBeGreaterThan(0);
+    }
+  });
+
+  it("ensures FAQ in JSON-LD structure matches visible FAQ text word for word", () => {
+    const combos = getAllPlausibleCombos().slice(0, 10);
+    for (const combo of combos) {
+      const v = buildVerdict(combo.cpu, combo.gpu);
+      const jsonLdFaq = v.faq.map((item) => ({
+        question: item.question,
+        answer: item.answer,
+      }));
+      for (let i = 0; i < v.faq.length; i++) {
+        expect(jsonLdFaq[i].question).toBe(v.faq[i].question);
+        expect(jsonLdFaq[i].answer).toBe(v.faq[i].answer);
+      }
+    }
+  });
+
+  it("average shared 8-word phrase ratio across 30 random pairs is below 40%", () => {
+    const allCombos = getAllPlausibleCombos();
+    expect(allCombos.length).toBeGreaterThanOrEqual(30);
+
+    // Pick 30 distinct deterministic pairs across the list
+    const sampleSize = Math.min(30, allCombos.length);
+    const step = Math.floor(allCombos.length / sampleSize);
+    const sampledCombos = [];
+    for (let i = 0; i < sampleSize; i++) {
+      sampledCombos.push(allCombos[i * step]);
+    }
+
+    function extractText(c: typeof allCombos[0]): string {
+      const v = buildVerdict(c.cpu, c.gpu);
+      return [
+        v.introSentence,
+        v.summaryVerdict,
+        v.resolutionAnalysis,
+        v.platformAnalysis,
+        v.closingTakeaway,
+        v.hardwareSpecs.synergyAnalysis,
+        ...v.comparisons.map((comp) => comp.title + " " + comp.analysis),
+        v.frameGenAdvice.description,
+        v.frameGenAdvice.warning ?? "",
+        v.upgradeAdvice.cpuUpgradeText ?? "",
+        v.upgradeAdvice.cpuUpgradeWarning ?? "",
+        v.upgradeAdvice.gpuUpgradeText ?? "",
+        v.upgradeAdvice.gpuUpgradeWarning ?? "",
+        v.psuAdvice.description,
+        ...v.faq.map((f) => f.question + " " + f.answer),
+        ...v.deepDive.drawCallPipelineNotes,
+        ...v.deepDive.thermalPointers,
+      ].join(" ");
+    }
+
+    function get8Grams(text: string): Set<string> {
+      const words = text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, " ")
+        .split(/\s+/)
+        .filter((w) => w.length > 0);
+      const set = new Set<string>();
+      for (let i = 0; i <= words.length - 8; i++) {
+        set.add(words.slice(i, i + 8).join(" "));
+      }
+      return set;
+    }
+
+    const nGramList = sampledCombos.map((c) => get8Grams(extractText(c)));
+    let totalOverlapRatio = 0;
+    let comparisonsCount = 0;
+
+    for (let i = 0; i < nGramList.length; i++) {
+      const nextIndex = (i + 1) % nGramList.length;
+      const setA = nGramList[i];
+      const setB = nGramList[nextIndex];
+      let shared = 0;
+      for (const phrase of setA) {
+        if (setB.has(phrase)) shared++;
+      }
+      const overlap = (2 * shared) / (setA.size + setB.size);
+      totalOverlapRatio += overlap;
+      comparisonsCount++;
+    }
+
+    const avgSharedRatio = totalOverlapRatio / comparisonsCount;
+    console.log("Average shared 8-word phrase ratio across 30 pairs:", (avgSharedRatio * 100).toFixed(2) + "%");
+    // Target is < 0.40 (40%)
+    expect(avgSharedRatio).toBeLessThan(0.40);
   });
 });

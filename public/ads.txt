@@ -1,0 +1,4 @@
+# RigPulse ads.txt
+# Replace pub-0000000000000000 with your Google AdSense Publisher ID
+# Format: <Field #1>, <Field #2>, <Field #3>, <Field #4>
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
